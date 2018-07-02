@@ -10,25 +10,25 @@ Download from [here](https://drive.google.com/drive/u/0/folders/0Bz8a_Dbh9Qhbfll
  
 * How to use these datasets:
 
-mkdir textdata
+`mkdir textdata`
 
-cd textdata
+`cd textdata`
 
-tar -xvf *.tar.gz 
+`tar -xvf *.tar.gz` 
 
 
 ## Usage:
-train.py --data [0-7] --model [modelname] ### Train the models that can be used in further attack
+`train.py --data [0-7] --model [modelname] ### Train the models that can be used in further attack`
 
---data [0-7] #select which data 
+`--data [0-7]` #select which data 
 
---model [simplernn, bilstm, charcnn] #select the model type to train. The code will automatically choose the preprocessing of the model.
+`--model [simplernn, bilstm, charcnn]` #select the model type to train. The code will automatically choose the preprocessing of the model.
 
-attack.py --data [0-7] --model [modelname] --modelpath [modelpath] --scoring [algorithm] --transformer [algorithm] ### Generate DeepWordBug adversarial samples
+`attack.py --data [0-7] --model [modelname] --modelpath [modelpath] --scoring [algorithm] --transformer [algorithm] ### Generate DeepWordBug adversarial samples`
 
--- modelpath [modelpath] #Model path, stored by train.py
+`-- modelpath [modelpath]` #Model path, stored by train.py
 
--- scoring [combined, temporal, tail, replaceone, random, grad] # Scoring algorithm
+`-- scoring [combined, temporal, tail, replaceone, random, grad]` # Scoring algorithm
 
--- transformer [swap, flip, insert, remove] # transformer algorithm
+`-- transformer [swap, flip, insert, remove]` # transformer algorithm
 
