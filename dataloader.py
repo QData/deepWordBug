@@ -2,6 +2,7 @@ import torch
 from torch.utils.data import DataLoader, Dataset
 import torch.autograd as autograd
 # import numpy as np
+
 class Chardata(Dataset):
     def __init__(self, data, length=1014, space = False, backward = -1, alphabet = None):
         self.backward = backward
@@ -46,42 +47,24 @@ class Chardata(Dataset):
                 if j>=self.length:
                     break
                 if ch in self.dict_alphabet:
-                # if self.alphabet.find(ch)!=-1:
                     inputs[self.dict_alphabet[ch]][j] = 1.0
         return inputs
         
 class Worddata(Dataset):
-    def __init__(self, data, tokenizer = True, length=1014, space = False, backward = -1):
-        self.backward = backward
-        self.length = length
+    def __init__(self, data, tokenizer = True):
         (self.inputs,self.labels) = (data.content,data.output)
         self.labels = torch.LongTensor(self.labels)
         self.inputs = torch.from_numpy(self.inputs).long()
-        # if tokenizer:
-        #     self.tokenize(nb_words)
-        
     def __len__(self):
         return len(self.inputs)
     def __getitem__(self,idx):
         x = self.inputs[idx]
         y = self.labels[idx]
         return x,y
-    # def tokenize(self,nb_words = 20000):
-    #     tokenizer = Tokenizer(num_words=nb_words, lower=True)
-    #     tokenizer.fit_on_texts(self.inputs)
-    #     self.inputs = tokenizer.texts_to_sequences(self.inputs)
         
-    #     self.inputs = torch.Tensor(self.inputs)
 if __name__ == '__main__':
     import loaddata
-    # (train,test,numclass) = loaddata.loaddata(0)
     (train,test,tokenizer,numclass) = loaddata.loaddatawithtokenize(0)
-    # trainchar = Chardata(train)
-    # train_loader = DataLoader(trainchar,batch_size=64, num_workers=4, drop_last=False)
-    # for i_batch, sample_batched in enumerate(train_loader):
-    #     inputs,target = sample_batched
-    #     print(inputs.size())
-    #     # print(inputs[0])
     trainword = Worddata(train)
     train_loader = DataLoader(trainword,batch_size=64, num_workers=4, drop_last=False)
     for i_batch, sample_batched in enumerate(train_loader):

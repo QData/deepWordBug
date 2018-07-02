@@ -4,6 +4,7 @@ csv.field_size_limit(2147483647)
 import keras
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing import sequence
+
 class fulldataset:
     def __init__(self,filename,line=3):
         self.output = []
@@ -52,10 +53,11 @@ class dataset:
             elif self.columns==4:
                 self.output.append(int(row[0])-1)
                 self.content.append((row[1] + " " + row[2] + " " + row[3]).lower())       
+
 def loaddata(i = 0):
-    datanames = ['ag_news','amazon_review_full','amazon_review_polarity','dbpedia','sogou_news','yahoo_answers','yelp_review_full','yelp_review_polarity','enron']
-    lines = [3,3,3,3,3,4,2,2,2]
-    classes= [4,5,2,14,5,10,5,2,2]
+    datanames = ['ag_news','amazon_review_full','amazon_review_polarity','dbpedia','sogou_news','yahoo_answers','yelp_review_full','yelp_review_polarity']
+    lines = [3,3,3,3,3,4,2,2]
+    classes= [4,5,2,14,5,10,5,2]
     trainadd = 'textdata/'+datanames[i]+'_csv/train.csv'
     testadd = 'textdata/'+datanames[i]+'_csv/test.csv'
     traindata = dataset(trainadd,lines[i])
@@ -81,12 +83,7 @@ def loaddatawithtokenize(i = 0, nb_words = 20000, start_char = 1, oov_char=2, in
     
     traindata.content = sequence.pad_sequences(traindata.content, maxlen=500)
     testdata.content = sequence.pad_sequences(testdata.content, maxlen=500)
-    # traindata.content = torch.Tensor(traindata.content)
-    # testdata.content = torch.Tensor(testdata.content)
-    if withraw:
-        return traindata,testdata,tokenizer,numclass,rawtrain,rawtest
-    else:
-        return traindata,testdata,tokenizer,numclass
+    return traindata,testdata,tokenizer,numclass
     
 if __name__ == "__main__":
     (traindata,testdata,numclass) = loaddata(8)
