@@ -1,6 +1,6 @@
 # DeepWordBug implementation
 
-* This is an implementation of our deepWordBug attack on text data. It requires pytorch 0.2 and keras utils to run our code.
+* This is an implementation of our deepWordBug attack on text data. The code is written in python 2.7. It requires pytorch 0.2 and keras utils to run our code.
 
 ### Prerequists:
 
