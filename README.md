@@ -1,3 +1,23 @@
+# Citation: 
+
+`@article{DBLP:journals/corr/abs-1801-04354,
+  author    = {Ji Gao and
+               Jack Lanchantin and
+               Mary Lou Soffa and
+               Yanjun Qi},
+  title     = {Black-box Generation of Adversarial Text Sequences to Evade Deep Learning
+               Classifiers},
+  journal   = {CoRR},
+  volume    = {abs/1801.04354},
+  year      = {2018},
+  url       = {http://arxiv.org/abs/1801.04354},
+  archivePrefix = {arXiv},
+  eprint    = {1801.04354},
+  timestamp = {Thu, 01 Feb 2018 19:52:26 +0100},
+  biburl    = {https://dblp.org/rec/bib/journals/corr/abs-1801-04354},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}`
+
 # DeepWordBug implementation
 
 * This is an implementation of our deepWordBug attack on text data. The code is written in python 2.7. It requires pytorch 0.2 and keras utils to run our code.
