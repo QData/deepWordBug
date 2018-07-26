@@ -1,6 +1,7 @@
 # Citation: 
 
-`@article{DBLP:journals/corr/abs-1801-04354,
+```
+@article{DBLP:journals/corr/abs-1801-04354,
   author    = {Ji Gao and
                Jack Lanchantin and
                Mary Lou Soffa and
@@ -16,7 +17,8 @@
   timestamp = {Thu, 01 Feb 2018 19:52:26 +0100},
   biburl    = {https://dblp.org/rec/bib/journals/corr/abs-1801-04354},
   bibsource = {dblp computer science bibliography, https://dblp.org}
-}`
+}
+```
 
 # DeepWordBug implementation
 
