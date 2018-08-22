@@ -54,5 +54,5 @@ Download from [here](https://drive.google.com/drive/u/0/folders/0Bz8a_Dbh9Qhbfll
 
 `-- transformer [swap, flip, insert, remove]` # transformer algorithm
 
-`-- power [power] # Attack power(integer, in (0,30]) which is number of modified tokens, i.e., the edit distance
+`-- power [power]` # Attack power(integer, in (0,30]) which is number of modified tokens, i.e., the edit distance
 
