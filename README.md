@@ -46,11 +46,13 @@ Download from [here](https://drive.google.com/drive/u/0/folders/0Bz8a_Dbh9Qhbfll
 
 `--model [simplernn, bilstm, charcnn]` #select the model type to train. The code will automatically choose the preprocessing of the model.
 
-`attack.py --data [0-7] --model [modelname] --modelpath [modelpath] --scoring [algorithm] --transformer [algorithm]` ### Generate DeepWordBug adversarial samples
+`attack.py --data [0-7] --model [modelname] --modelpath [modelpath] --power [power] --scoring [algorithm] --transformer [algorithm]` ### Generate DeepWordBug adversarial samples
 
 `-- modelpath [modelpath]` #Model path, stored by train.py
 
 `-- scoring [combined, temporal, tail, replaceone, random, grad]` # Scoring algorithm
 
 `-- transformer [swap, flip, insert, remove]` # transformer algorithm
+
+`-- power [power] # Attack power(integer, in (0,30]) which is number of modified tokens, i.e., the edit distance
 
