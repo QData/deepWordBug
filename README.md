@@ -1,5 +1,11 @@
 # Citation: 
 
+### Title: Black-box Generation of Adversarial Text Sequences to Evade Deep Learning Classifiers
+
+### at 2018 IEEE Security and Privacy Workshops (SPW),
+
+### PDF at [https://arxiv.org/abs/1801.04354](https://arxiv.org/abs/1801.04354)
+
 ```
 @article{DBLP:journals/corr/abs-1801-04354,
   author    = {Ji Gao and
