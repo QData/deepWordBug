@@ -28,7 +28,9 @@
 
 # DeepWordBug implementation
 
-* This is an implementation of our deepWordBug attack on text data. The code is written in python 2.7. It requires pytorch 0.3 and keras utils to run our code.
+* This is an implementation of our deepWordBug attack on text data. The code is written in python 3. It requires Pytorch 0.4  to run our code.
+
+### Update: our code is now upgraded to Python 3 & pytorch 0.4.1
 
 ### Prerequists:
 
@@ -44,6 +46,12 @@ Download from [here](https://drive.google.com/drive/u/0/folders/0Bz8a_Dbh9Qhbfll
 
 `tar -xvf *.tar.gz` 
 
+* How to set up environment
+
+Recommand: Use anaconda. With anaconda:
+
+`conda create -n python3 python==3.7`
+`conda install pytorch==0.4.1`
 
 ## Usage:
 `train.py --data [0-7] --model [modelname]` ### Train the models that can be used in further attack
