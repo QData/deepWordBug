@@ -1,10 +1,14 @@
 import sys
 import csv
 csv.field_size_limit(2147483647)
-import keras
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing import sequence
+from preprocessing import Tokenizer, pad_sequences
 
+# small = True
+small = False
+if small:
+    textdatafolder = 'textdata_small/'
+else:
+    textdatafolder = 'textdata/'
 class fulldataset:
     def __init__(self,filename,line=3):
         self.output = []
@@ -41,7 +45,7 @@ class dataset:
         self.loadcsv(filename)
         
     def loadcsv(self, filename, line=3):
-        reader = csv.reader(open(filename, "rb"))
+        reader = csv.reader(open(filename, "rt", encoding = "utf8"))
         count = 0
         for row in reader:
             if self.columns==2:
@@ -53,18 +57,17 @@ class dataset:
             elif self.columns==4:
                 self.output.append(int(row[0])-1)
                 self.content.append((row[1] + " " + row[2] + " " + row[3]).lower())       
-
 def loaddata(i = 0):
-    datanames = ['ag_news','amazon_review_full','amazon_review_polarity','dbpedia','sogou_news','yahoo_answers','yelp_review_full','yelp_review_polarity']
-    lines = [3,3,3,3,3,4,2,2]
-    classes= [4,5,2,14,5,10,5,2]
-    trainadd = 'textdata/'+datanames[i]+'_csv/train.csv'
-    testadd = 'textdata/'+datanames[i]+'_csv/test.csv'
+    datanames = ['ag_news','amazon_review_full','amazon_review_polarity','dbpedia','sogou_news','yahoo_answers','yelp_review_full','yelp_review_polarity','enron']
+    lines = [3,3,3,3,3,4,2,2,2]
+    classes= [4,5,2,14,5,10,5,2,2]
+    trainadd = textdatafolder+datanames[i]+'_csv/train.csv'
+    testadd = textdatafolder+datanames[i]+'_csv/test.csv'
     traindata = dataset(trainadd,lines[i])
     testdata = dataset(testadd,lines[i])
     return (traindata,testdata,classes[i])
 
-def loaddatawithtokenize(i = 0, nb_words = 20000, start_char = 1, oov_char=2, index_from=3, withraw = False):
+def loaddatawithtokenize(i = 0, nb_words = 20000, start_char = 1, oov_char=2, index_from=3, withraw = False, datalen = 500):
     (traindata,testdata,numclass) = loaddata(i)
     tokenizer = Tokenizer(lower=True)
     tokenizer.fit_on_texts(traindata.content + testdata.content)
@@ -81,10 +84,13 @@ def loaddatawithtokenize(i = 0, nb_words = 20000, start_char = 1, oov_char=2, in
     traindata.content = [[w if w < nb_words else oov_char for w in x] for x in traindata.content]
     testdata.content = [[w if w < nb_words else oov_char for w in x] for x in testdata.content]
     
-    traindata.content = sequence.pad_sequences(traindata.content, maxlen=500)
-    testdata.content = sequence.pad_sequences(testdata.content, maxlen=500)
-    return traindata,testdata,tokenizer,numclass
+    traindata.content = pad_sequences(traindata.content, maxlen=datalen)
+    testdata.content = pad_sequences(testdata.content, maxlen=datalen)
+    if withraw:
+        return traindata,testdata,tokenizer,numclass,rawtrain,rawtest
+    else:
+        return traindata,testdata,tokenizer,numclass
     
 if __name__ == "__main__":
     (traindata,testdata,numclass) = loaddata(8)
-    print traindata.output
+    print(len(traindata.output))

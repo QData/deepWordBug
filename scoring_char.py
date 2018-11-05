@@ -14,45 +14,44 @@ import model
 def random(model, inputs, pred, classes):
     losses = torch.rand(inputs.size()[0],inputs.size()[2])
     return losses
-    # Output a random list
 
 def replaceone(model, inputs, pred, classes):
     losses = torch.zeros(inputs.size()[0],inputs.size()[2])
-    for i in xrange(inputs.size()[2]):
-        tempinputs = inputs.data.clone()
-        tempinputs[:,:,i].zero_()
-        tempinputs = Variable(tempinputs, volatile=True)
-        tempoutput = model(tempinputs)
-        losses[:,i] = F.nll_loss(tempoutput, pred, reduce=False).data
+    with torch.no_grad():
+        for i in range(inputs.size()[2]):
+            tempinputs = inputs.clone()
+            tempinputs[:,:,i].zero_()
+            tempoutput = model(tempinputs)
+            losses[:,i] = F.nll_loss(tempoutput, pred, reduce=False)
     return losses
     
 def temporal(model, inputs, pred, classes):
     losses1 = torch.zeros(inputs.size()[0],inputs.size()[2])
     dloss = torch.zeros(inputs.size()[0],inputs.size()[2])
-    for i in xrange(inputs.size()[2]):
-        tempinputs = inputs.data.clone()
+    for i in range(inputs.size()[2]):
+        tempinputs = inputs.clone()
         if i!=inputs.size()[2]-1:
             tempinputs[:,:,i+1:].zero_()
-        tempinputs = Variable(tempinputs, volatile=True)
-        tempoutput = torch.exp(model(tempinputs))
-        losses1[:,i] = tempoutput.data.gather(1,pred.view(-1,1).data) 
+        with torch.no_grad():
+            tempoutput = torch.exp(model(tempinputs))
+        losses1[:,i] = tempoutput.gather(1,pred.view(-1,1)).view(-1)
     dloss[:,0] = losses1[:,0] - 1.0/classes
-    for i in xrange(1,inputs.size()[1]):
+    for i in range(1,inputs.size()[1]):
         dloss[:,i] = losses1[:,i] - losses1[:,i-1]
     return dloss
     
 def temporaltail(model, inputs, pred, classes):
     losses1 = torch.zeros(inputs.size()[0],inputs.size()[2])
     dloss = torch.zeros(inputs.size()[0],inputs.size()[2])
-    for i in xrange(inputs.size()[2]):
-        tempinputs = inputs.data.clone()
+    for i in range(inputs.size()[2]):
+        tempinputs = inputs.clone()
         if i!=0:
             tempinputs[:,:,:i].zero_()
-        tempinputs = Variable(tempinputs, volatile=True)
-        tempoutput = torch.exp(model(tempinputs))
-        losses1[:,i] = tempoutput.data.gather(1,pred.view(-1,1).data) 
+        with torch.no_grad():
+            tempoutput = torch.exp(model(tempinputs))
+        losses1[:,i] = tempoutput.gather(1,pred.view(-1,1)).view(-1)
     dloss[:,-1] = losses1[:,-1] - 1.0/classes
-    for i in xrange(inputs.size()[2]-1):
+    for i in range(inputs.size()[2]-1):
         dloss[:,i] = losses1[:,i] - losses1[:,i+1]
     return dloss
     
@@ -64,12 +63,12 @@ def combined(model, inputs, pred, classes):
 def grad(model, inputs, pred, classes):
     losses1 = torch.zeros(inputs.size()[0],inputs.size()[2])
     dloss = torch.zeros(inputs.size()[0],inputs.size()[2])
-    model = model.module
-    inputs = Variable(inputs.data,requires_grad=True)
-    output = model(inputs)
+    inputs1 = inputs.clone()
+    inputs1.requires_grad_(True)
+    output = model(inputs1)
     loss = F.nll_loss(output,pred)
     loss.backward()
-    score = inputs.grad.norm(2,dim=1).data
+    score = inputs1.grad.norm(2,dim=1)
     return score
     
 def scorefunc(name):

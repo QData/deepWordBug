@@ -6,30 +6,29 @@ from torch.autograd import Variable
 import argparse
 import loaddata
 import dataloader
-import os
 import shutil
 import model
-import numpy as np
-from torch.utils.data.sampler import SubsetRandomSampler
 
 def save_checkpoint(state, is_best, filename='checkpoint.dat'):
     torch.save(state, filename + '_checkpoint.dat')
     if is_best:
         shutil.copyfile(filename + '_checkpoint.dat', filename + "_bestmodel.dat")
         
-parser = argparse.ArgumentParser(description='Train a model from text data')
+parser = argparse.ArgumentParser(description='Data')
 parser.add_argument('--data', type=int, default=0, metavar='N',
-                    help='data 0 - 8')
-parser.add_argument('--seed', type=int, default=7, metavar='N',
-                    help='random seed')
-parser.add_argument('--length', type=int, default=1014, metavar='N',
-                    help='length in char data: default 1014')
+                    help='data 0 - 6')
+parser.add_argument('--charlength', type=int, default=1014, metavar='N',
+                    help='length: default 1014')
+parser.add_argument('--wordlength', type=int, default=500, metavar='N',
+                    help='length: default 500')
 parser.add_argument('--model', type=str, default='simplernn', metavar='N',
                     help='model type: LSTM as default')
 parser.add_argument('--space', type=bool, default=False, metavar='B',
                     help='Whether including space in the alphabet')
+parser.add_argument('--trans', type=bool, default=False, metavar='B',
+                    help='Not implemented yet, add thesausus transformation')
 parser.add_argument('--backward', type=int, default=-1, metavar='B',
-                    help='Backward direction of char data')
+                    help='Backward direction')
 parser.add_argument('--epochs', type=int, default=10, metavar='B',
                     help='Number of epochs')
 parser.add_argument('--batchsize', type=int, default=128, metavar='B',
@@ -38,14 +37,14 @@ parser.add_argument('--dictionarysize', type=int, default=20000, metavar='B',
                     help='batch size')
 parser.add_argument('--lr', type=float, default=0.0005, metavar='B',
                     help='learning rate')
-parser.add_argument('--validratio', type=float, default=0.2, metavar='B',
-                    help='valid ratio')
 parser.add_argument('--maxnorm', type=float, default=400, metavar='B',
                     help='learning rate')
 args = parser.parse_args()
 
-torch.manual_seed(args.seed)
-torch.cuda.manual_seed_all(args.seed)
+torch.manual_seed(7)
+torch.cuda.manual_seed_all(7)
+
+device = torch.device('cuda')
 
 if args.model == "charcnn":
     args.datatype = "char"
@@ -55,32 +54,23 @@ elif args.model == "bilstm":
     args.datatype = "word"
 elif args.model == "smallcharrnn":
     args.datatype = "char"
-    args.length = 300
+    args.charlength = 300
 elif args.model == "wordcnn":
     args.datatype = "word"
     
 print("Loading data..")
 if args.datatype == "char":
     (train,test,numclass) = loaddata.loaddata(args.data)
-    traintext = dataloader.Chardata(train,backward = args.backward, length = args.length)
-    testtext = dataloader.Chardata(test,backward = args.backward,length = args.length)
+    trainchar = dataloader.Chardata(train,backward = args.backward, length = args.charlength)
+    testchar = dataloader.Chardata(test,backward = args.backward,length = args.charlength)
+    train_loader = DataLoader(trainchar,batch_size=args.batchsize, num_workers=4, shuffle = True)
+    test_loader = DataLoader(testchar,batch_size=args.batchsize, num_workers=4)
 elif args.datatype == "word":
-    (train,test,tokenizer,numclass) = loaddata.loaddatawithtokenize(args.data,nb_words = args.dictionarysize)
-    traintext = dataloader.Worddata(train)
-    testtext = dataloader.Worddata(test)
-
-num_train = len(traintext)
-indices = range(num_train)
-split = int(np.floor(args.validratio * num_train))
-np.random.seed(args.seed)
-np.random.shuffle(indices)
-train_idx, valid_idx = indices[split:], indices[:split]
-train_sampler = SubsetRandomSampler(train_idx)
-valid_sampler = SubsetRandomSampler(valid_idx)
-
-train_loader = DataLoader(traintext,batch_size=args.batchsize, num_workers=4, sampler = train_sampler)
-valid_loader = DataLoader(traintext,batch_size=args.batchsize, num_workers=4, sampler = valid_sampler)
-test_loader = DataLoader(testtext,batch_size=args.batchsize, num_workers=4)
+    (train,test,tokenizer,numclass) = loaddata.loaddatawithtokenize(args.data,nb_words = args.dictionarysize, datalen = args.wordlength)
+    trainword = dataloader.Worddata(train,backward = args.backward)
+    testword = dataloader.Worddata(test,backward = args.backward)
+    train_loader = DataLoader(trainword,batch_size=args.batchsize, num_workers=4, shuffle = True)
+    test_loader = DataLoader(testword,batch_size=args.batchsize, num_workers=4)
 
 if args.model == "charcnn":
     model = model.CharCNN(classes = numclass)
@@ -93,42 +83,40 @@ elif args.model == "smallcharrnn":
 elif args.model == "wordcnn":
     model = model.WordCNN(classes = numclass)
     
-model = model.cuda()
-model = torch.nn.DataParallel(model).cuda()
-print "Model:\n",model
+model = model.to(device)
+print(model)
 optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
 
-if not os.path.exists('models'):
-    os.makedirs('models')
 bestacc = 0
-for epoch in xrange(args.epochs+1):
-    print 'Start epoch %d' % epoch
+for epoch in range(args.epochs+1):
+    print('Start epoch %d' % epoch)
     model.train()
     for dataid, data in enumerate(train_loader):
         inputs,target = data
         inputs,target = Variable(inputs),  Variable(target)
-        inputs, target = inputs.cuda(), target.cuda()
+        inputs, target = inputs.to(device), target.to(device)
         output = model(inputs)
+
         loss = F.nll_loss(output, target)
+
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        torch.cuda.synchronize()
     
     correct = .0
     total_loss = 0
     model.eval()
-    for dataid, data in enumerate(valid_loader):
+    for dataid, data in enumerate(test_loader):
         inputs,target = data
-        inputs,target = Variable(inputs, volatile=True),  Variable(target)
-        inputs, target = inputs.cuda(), target.cuda()
+        inputs, target = inputs.to(device), target.to(device)
         output = model(inputs)
         loss = F.nll_loss(output, target)
-        total_loss += loss.data[0]
+        total_loss += loss.item()
         pred = output.data.max(1, keepdim=True)[1]
-        correct += pred.eq(target.data.view_as(pred)).cpu().sum()
-    acc = correct/len(valid_idx)
-    avg_loss = total_loss/len(valid_idx)
+        correct += pred.eq(target.data.view_as(pred)).cpu().sum().item()
+
+    acc = correct/len(test_loader.dataset)
+    avg_loss = total_loss/len(test_loader.dataset)
     print('Epoch %d : Loss %.4f Accuracy %.5f' % (epoch,avg_loss,acc))
     is_best = acc > bestacc
     if is_best:

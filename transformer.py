@@ -1,5 +1,5 @@
+# -*- coding: utf-8 -*-
 import numpy as np
-np.random.seed(7)
 
 def swap(wordid,word_index,index2word,top_words=20000):
     word = index2word[wordid]
@@ -14,7 +14,6 @@ def swap(wordid,word_index,index2word,top_words=20000):
             wid = 2
     else:
         cword = word
-        # cword = word + '0'
         if cword in word_index:
             wid = word_index[cword] + 3
             if wid>=top_words:
@@ -26,6 +25,7 @@ def swap(wordid,word_index,index2word,top_words=20000):
 def flip(wordid,word_index,index2word,top_words=20000):
     word = index2word[wordid]
     s = np.random.randint(0,len(word))
+    # cword = word[:s] + chr(97+np.random.randint(0,26)) + word[s+1:]
     letter = ord(word[s])
     rletter = np.random.randint(0,25)+97
     if rletter >= letter:
@@ -109,6 +109,24 @@ def insert(wordid,word_index,index2word,top_words=20000):
         wid = 2
     return (cword,wid)
 
+homos = {'-':'˗','9':'৭','8':'Ȣ','7':'𝟕','6':'б','5':'Ƽ','4':'Ꮞ','3':'Ʒ','2':'ᒿ','1':'l','0':'O',"'":'`','a': 'ɑ', 'b': 'Ь', 'c': 'ϲ', 'd': 'ԁ', 'e': 'е', 'f': '𝚏', 'g': 'ɡ', 'h': 'հ', 'i': 'і', 'j': 'ϳ', 'k': '𝒌', 'l': 'ⅼ', 'm': 'ｍ', 'n': 'ո', 'o':'ο', 'p': 'р', 'q': 'ԛ', 'r': 'ⲅ', 's': 'ѕ', 't': '𝚝', 'u': 'ս', 'v': 'ѵ', 'w': 'ԝ', 'x': '×', 'y': 'у', 'z': 'ᴢ'}
+
+def homoglyph(wordid,word_index,index2word,top_words=20000):
+    word = index2word[wordid]
+    s = np.random.randint(0,len(word))
+    if word[s] in homos: 
+        rletter = homos[word[s]]
+    else:
+        rletter = word[s]
+    cword = word[:s] + rletter + word[s+1:]
+    if cword in word_index:
+        wid = word_index[cword] + 3
+        if wid >= top_words:
+            wid = 2
+    else:
+        wid = 2
+    return (cword,wid)
+    
 def transform(name):
     if "swap" in name:
         return swap
@@ -122,6 +140,8 @@ def transform(name):
         return remove
     elif "r2" in name:
         return remove2
+    elif "homoglyph" in name:
+        return homoglyph
     else:
         print('No transformer function found')
         sys.exit(1)
