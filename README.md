@@ -7,23 +7,16 @@
 ### PDF at [https://arxiv.org/abs/1801.04354](https://arxiv.org/abs/1801.04354)
 
 ```
-@article{DBLP:journals/corr/abs-1801-04354,
-  author    = {Ji Gao and
-               Jack Lanchantin and
-               Mary Lou Soffa and
-               Yanjun Qi},
-  title     = {Black-box Generation of Adversarial Text Sequences to Evade Deep Learning
-               Classifiers},
-  journal   = {CoRR},
-  volume    = {abs/1801.04354},
-  year      = {2018},
-  url       = {http://arxiv.org/abs/1801.04354},
-  archivePrefix = {arXiv},
-  eprint    = {1801.04354},
-  timestamp = {Thu, 01 Feb 2018 19:52:26 +0100},
-  biburl    = {https://dblp.org/rec/bib/journals/corr/abs-1801-04354},
-  bibsource = {dblp computer science bibliography, https://dblp.org}
-}
+@INPROCEEDINGS{JiDeepWordBug18, 
+author={J. Gao and J. Lanchantin and M. L. Soffa and Y. Qi}, 
+booktitle={2018 IEEE Security and Privacy Workshops (SPW)}, 
+title={Black-Box Generation of Adversarial Text Sequences to Evade Deep Learning Classifiers}, 
+year={2018}, 
+pages={50-56}, 
+keywords={learning (artificial intelligence);pattern classification;program debugging;text analysis;deep learning classifiers;character-level transformations;IMDB movie reviews;Enron spam emails;real-world text datasets;scoring strategies;text input;text perturbations;DeepWordBug;black-box attack;adversarial text sequences;black-box generation;Perturbation methods;Machine learning;Task analysis;Recurrent neural networks;Prediction algorithms;Sentiment analysis;adversarial samples;black box attack;text classification;misclassification;word embedding;deep learning}, 
+doi={10.1109/SPW.2018.00016}, 
+ISSN={}, 
+month={May},}
 ```
 
 # DeepWordBug implementation
