@@ -5,6 +5,8 @@ from torch.utils.data import DataLoader
 from torch.autograd import Variable
 import argparse
 import model
+import numpy as np
+import math
 
 # Input: 
 # model: the torch model
@@ -70,7 +72,7 @@ def grad(model, inputs, pred, classes):
     loss.backward()
     score = inputs1.grad.norm(2,dim=1)
     return score
-    
+
 def scorefunc(name):
     if "temporal" in name:
         return temporal

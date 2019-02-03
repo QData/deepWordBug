@@ -23,7 +23,8 @@ class Chardata(Dataset):
         x = self.encode(self.inputs[idx])
         y = self.labels[idx]
         if self.getidx==True:
-            return x,y,idx
+            raw = self.inputs[idx]
+            return x,y,idx,raw
         else:
             return x,y
         return x,y
@@ -55,21 +56,25 @@ class Chardata(Dataset):
         return inputs
         
 class Worddata(Dataset):
-    def __init__(self, data, tokenizer = True, length=1014, space = False, backward = -1, getidx = False):
+    def __init__(self, data, tokenizer = True, length=1014, space = False, backward = -1, getidx = False, rawdata = None):
         self.backward = backward
         self.length = length
         (self.inputs,self.labels) = (data.content,data.output)
         self.labels = torch.LongTensor(self.labels)
         self.inputs = torch.from_numpy(self.inputs).long()
         self.getidx = getidx
-        
+        if rawdata:
+            self.raw = rawdata
     def __len__(self):
         return len(self.inputs)
     def __getitem__(self,idx):
         x = self.inputs[idx]
         y = self.labels[idx]
         if self.getidx==True:
-            return x,y,idx
+            if self.raw:
+                return x,y,idx,self.raw[idx]
+            else:
+                return x,y,idx
         else:
             return x,y
 if __name__ == '__main__':

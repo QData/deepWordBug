@@ -48,6 +48,8 @@ class dataset:
         reader = csv.reader(open(filename, "rt", encoding = "utf8"))
         count = 0
         for row in reader:
+            if not row:
+                continue
             if self.columns==2:
                 self.output.append(int(row[0])-1)
                 self.content.append((row[1]).lower())
@@ -69,6 +71,8 @@ def loaddata(i = 0):
 
 def loaddatawithtokenize(i = 0, nb_words = 20000, start_char = 1, oov_char=2, index_from=3, withraw = False, datalen = 500):
     (traindata,testdata,numclass) = loaddata(i)
+    rawtrain = traindata.content[:]
+    rawtest = testdata.content[:]
     tokenizer = Tokenizer(lower=True)
     tokenizer.fit_on_texts(traindata.content + testdata.content)
     traindata.content = tokenizer.texts_to_sequences(traindata.content)

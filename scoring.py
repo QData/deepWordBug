@@ -5,7 +5,12 @@ from torch.utils.data import DataLoader
 # from torch.autograd import Variable
 import argparse
 import model
+import math
 
+import numpy as np
+
+
+import sys
 # Input: 
 # model: the torch model
 # input: the input at current stage 
@@ -25,7 +30,7 @@ def replaceone(model, inputs, pred, classes):
             tempoutput = model(tempinputs)
         losses[:,i] = F.nll_loss(tempoutput, pred, reduce=False)
     return losses
-    
+
 def temporal(model, inputs, pred, classes):
     losses1 = torch.zeros(inputs.size()[0],inputs.size()[1])
     dloss = torch.zeros(inputs.size()[0],inputs.size()[1])
@@ -73,6 +78,19 @@ def grad(model, inputs, pred, classes):
     score = embd.grad.norm(2,dim=2) + score * 1e9
     return score
 
+def grad_unconstrained(model, inputs, pred, classes):
+    losses1 = torch.zeros(inputs.size()[0],inputs.size()[1])
+    dloss = torch.zeros(inputs.size()[0],inputs.size()[1])
+    if isinstance(model,torch.nn.DataParallel):
+        model = model.module
+    model.train()
+    embd,output = model(inputs, returnembd = True)
+    loss = F.nll_loss(output,pred)
+
+    loss.backward()
+    score = embd.grad.norm(2,dim=2)
+    return score
+    
 def scorefunc(name):
     if "temporal" in name:
         return temporal
@@ -84,6 +102,8 @@ def scorefunc(name):
         return replaceone
     elif "random" in name:
         return random
+    elif 'ucgrad' in name:
+        return grad_unconstrained
     elif "grad" in name:
         return grad
     else:
