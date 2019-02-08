@@ -1,10 +1,14 @@
-# Citation: 
+# DeepWordBug
 
-### Title: Black-box Generation of Adversarial Text Sequences to Evade Deep Learning Classifiers
+This repository contains the source code of DeepWordBug, an algorithm that generates efficient adversarial samples on text input. The algorithm can attack both Char and Word model in a fast and black-box manner.
 
-### at 2018 IEEE Security and Privacy Workshops (SPW),
+## Citation: 
 
-### PDF at [https://arxiv.org/abs/1801.04354](https://arxiv.org/abs/1801.04354)
+### Title: Black-box Generation of Adversarial Text Sequences to Evade Deep Learning Classifiers 
+
+#### at 2018 IEEE Security and Privacy Workshops (SPW),
+
+#### PDF at [https://arxiv.org/abs/1801.04354](https://arxiv.org/abs/1801.04354)
 
 ```
 @INPROCEEDINGS{JiDeepWordBug18, 
@@ -19,11 +23,17 @@ ISSN={},
 month={May},}
 ```
 
-# DeepWordBug implementation
+## Dependency
 
-* This is an implementation of our deepWordBug attack on text data. The code is written in python 3. It requires Pytorch 0.4  to run our code.
+### The code is written in python 3. It requires [Pytorch](pytorch.org) 0.4 or higher to run our code.
 
-### Update: our code is now upgraded to Python 3 & pytorch 0.4.1
+### Quick start
+
+#### Use attack_interactive.py to get some ideas of our attack!
+Usage:
+```
+attack_interactive.py --data [0-7]
+```
 
 ### Prerequists:
 
@@ -33,25 +43,29 @@ Download from [here](https://drive.google.com/drive/u/0/folders/0Bz8a_Dbh9Qhbfll
  
 * How to use these datasets:
 
-`mkdir textdata`
-
-`cd textdata`
-
-`tar -xvf *.tar.gz` 
+```
+mkdir textdata
+cd textdata
+tar -xvf *.tar.gz
+```
 
 * How to set up environment
 
 Recommand: Use anaconda. With anaconda:
 
-`conda create -n python3 python==3.7`
-`conda install pytorch==0.4.1`
+```
+conda create -n python3 python==3.6 pytorch==0.4.1
+```
 
 ## Usage:
-`train.py --data [0-7] --model [modelname]` ### Train the models that can be used in further attack
 
-`--data [0-7]` #select which data 
+```
+train.py --data [0-7] --model [modelname]  ### Train the models that can be used in further attack
 
-`--model [simplernn, bilstm, charcnn]` #select the model type to train. The code will automatically choose the preprocessing of the model.
+--data [0-7] #select which data to use 
+--model [simplernn, bilstm, charcnn] #select the model type to train. The code will automatically choose the preprocessing of the model.
+``` 
+
 
 `attack.py --data [0-7] --model [modelname] --modelpath [modelpath] --power [power] --scoring [algorithm] --transformer [algorithm] --maxbatches [batches=20] --batchsize [batchsize=128]` ### Generate DeepWordBug adversarial samples
 
