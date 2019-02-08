@@ -2,6 +2,8 @@
 
 This repository contains the source code of DeepWordBug, an algorithm that generates efficient adversarial samples on text input. The algorithm can attack both Char and Word model in a fast and black-box manner.
 
+<img src="https://github.com/QData/deepWordBug/blob/master/example.gif" alt="example">
+
 ## Citation: 
 
 ### Title: Black-box Generation of Adversarial Text Sequences to Evade Deep Learning Classifiers 
