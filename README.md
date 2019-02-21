@@ -33,8 +33,8 @@ month={May},}
 
 #### Use attack_interactive.py to get some ideas of our attack!
 Usage:
-```
-attack_interactive.py --data [0-7]
+```bash
+python attack_interactive.py --data [0-7]
 ```
 
 ### Prerequists:
@@ -45,7 +45,7 @@ Download from [here](https://drive.google.com/drive/u/0/folders/0Bz8a_Dbh9Qhbfll
  
 * How to use these datasets:
 
-```
+```bash
 mkdir textdata
 cd textdata
 tar -xvf *.tar.gz
@@ -55,29 +55,29 @@ tar -xvf *.tar.gz
 
 Recommand: Use anaconda. With anaconda:
 
-```
+```bash
 conda create -n python3 python==3.6 pytorch==0.4.1
 ```
 
 ## Usage:
 
-```
+```bash
 python train.py --data [0-7] --model [modelname]  ### Train the models that can be used in further attack
 
---data [0-7] #select which data to use 
---model [simplernn, bilstm, charcnn] #select the model type to train. 
+#--data [0-7] #select which data to use 
+#--model [simplernn, bilstm, charcnn] #select the model type to train. 
 # The code will automatically choose the preprocessing of the model.
 ``` 
 
 
-```
+```bash
 python attack.py --data [0-7] --model [modelname] --modelpath [modelpath] --power [power] --scoring [algorithm] 
 --transformer [algorithm] --maxbatches [batches=20] --batchsize [batchsize=128] ### Generate DeepWordBug adversarial samples
---modelpath [modelpath] #Model path, stored by train.py
---scoring [combined, temporal, tail, replaceone, random, grad] # Scoring algorithm
---transformer [swap, flip, insert, remove] # transformer algorithm
---power [power] # Attack power(integer, in (0,30]) which is number of modified tokens, i.e., the edit distance
---maxbatches [batches=20] # Number of batches of adversarial samples generated, samples are selected randomly. 
+#--modelpath [modelpath] #Model path, stored by train.py
+#--scoring [combined, temporal, tail, replaceone, random, grad] # Scoring algorithm
+#--transformer [swap, flip, insert, remove] # transformer algorithm
+#--power [power] # Attack power(integer, in (0,30]) which is number of modified tokens, i.e., the edit distance
+#--maxbatches [batches=20] # Number of batches of adversarial samples generated, samples are selected randomly. 
 # Since some test dataset is very large, to evaluate the performance we add this parameter
 # to generate on parts of data. By default it will generate 2560 samples.
 ```
