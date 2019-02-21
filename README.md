@@ -69,14 +69,10 @@ train.py --data [0-7] --model [modelname]  ### Train the models that can be used
 ``` 
 
 
-`attack.py --data [0-7] --model [modelname] --modelpath [modelpath] --power [power] --scoring [algorithm] --transformer [algorithm] --maxbatches [batches=20] --batchsize [batchsize=128]` ### Generate DeepWordBug adversarial samples
-
-`-- modelpath [modelpath]` #Model path, stored by train.py
-
-`-- scoring [combined, temporal, tail, replaceone, random, grad]` # Scoring algorithm
-
-`-- transformer [swap, flip, insert, remove]` # transformer algorithm
-
-`-- power [power]` # Attack power(integer, in (0,30]) which is number of modified tokens, i.e., the edit distance
-
-`--maxbatches [batches=20]` # Number of batches of adversarial samples generated, samples are selected randomly. Since some test dataset is very large, to evaluate the performance we add this parameter to generate on parts of data. By default it will generate 2560 samples.
+```attack.py --data [0-7] --model [modelname] --modelpath [modelpath] --power [power] --scoring [algorithm] --transformer [algorithm] --maxbatches [batches=20] --batchsize [batchsize=128] ### Generate DeepWordBug adversarial samples
+--modelpath [modelpath]` #Model path, stored by train.py
+--scoring [combined, temporal, tail, replaceone, random, grad]` # Scoring algorithm
+--transformer [swap, flip, insert, remove]` # transformer algorithm
+--power [power]` # Attack power(integer, in (0,30]) which is number of modified tokens, i.e., the edit distance
+--maxbatches [batches=20]` # Number of batches of adversarial samples generated, samples are selected randomly. Since some test dataset is very large, to evaluate the performance we add this parameter to generate on parts of data. By default it will generate 2560 samples.
+```
