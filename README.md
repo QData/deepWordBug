@@ -62,7 +62,7 @@ conda create -n python3 python==3.6 pytorch==0.4.1
 ## Usage:
 
 ```
-train.py --data [0-7] --model [modelname]  ### Train the models that can be used in further attack
+python train.py --data [0-7] --model [modelname]  ### Train the models that can be used in further attack
 
 --data [0-7] #select which data to use 
 --model [simplernn, bilstm, charcnn] #select the model type to train. 
@@ -71,7 +71,8 @@ train.py --data [0-7] --model [modelname]  ### Train the models that can be used
 
 
 ```
-attack.py --data [0-7] --model [modelname] --modelpath [modelpath] --power [power] --scoring [algorithm] --transformer [algorithm] --maxbatches [batches=20] --batchsize [batchsize=128] ### Generate DeepWordBug adversarial samples
+python attack.py --data [0-7] --model [modelname] --modelpath [modelpath] --power [power] --scoring [algorithm] 
+--transformer [algorithm] --maxbatches [batches=20] --batchsize [batchsize=128] ### Generate DeepWordBug adversarial samples
 --modelpath [modelpath] #Model path, stored by train.py
 --scoring [combined, temporal, tail, replaceone, random, grad] # Scoring algorithm
 --transformer [swap, flip, insert, remove] # transformer algorithm
