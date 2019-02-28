@@ -10,7 +10,12 @@ This repository contains the source code of DeepWordBug, an algorithm that gener
 
 #### at 2018 IEEE Security and Privacy Workshops (SPW),
 
-#### PDF at [https://arxiv.org/abs/1801.04354](https://arxiv.org/abs/1801.04354)
++ Our Presentation @ [PDF](https://github.com/QData/deepWordBug/blob/master/about/2018_Ji_DLS_presentation.pdf)
+
+#### Extended PDF at [https://arxiv.org/abs/1801.04354](https://arxiv.org/abs/1801.04354)
+
++ Local version @ [PDF](https://github.com/QData/deepWordBug/blob/master/about/Ji2017_EvadeNLP-extended.pdf)
+
 
 ```
 @INPROCEEDINGS{JiDeepWordBug18, 
@@ -24,6 +29,8 @@ doi={10.1109/SPW.2018.00016},
 ISSN={}, 
 month={May},}
 ```
+
+
 
 ## Dependency
 
