@@ -51,7 +51,7 @@ args = parser.parse_args()
 torch.manual_seed(8)
 torch.cuda.manual_seed(8)
 
-device = torch.device('cuda')
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 if args.model == "charcnn":
     args.datatype = "char"

@@ -3,6 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 class CharCNN(nn.Module):
     def __init__(self, classes=4, num_features=69, dropout=0.5):
         super(CharCNN, self).__init__()
@@ -84,11 +86,11 @@ class smallRNN(nn.Module):
     def forward(self, x, returnembd = False):
         embd = self.embd(x)
         if returnembd:
-            embd = Variable(embd.data, requires_grad=True).cuda()
+            embd = Variable(embd.data, requires_grad=True).to(device)
             embd.retain_grad()
             # print embd.size()
-        h0 = Variable(torch.zeros(self.hsize, embd.size(0), self.hiddensize)).cuda()
-        c0 = Variable(torch.zeros(self.hsize, embd.size(0), self.hiddensize)).cuda()
+        h0 = Variable(torch.zeros(self.hsize, embd.size(0), self.hiddensize)).to(device)
+        c0 = Variable(torch.zeros(self.hsize, embd.size(0), self.hiddensize)).to(device)
         # for inputs in x:
         x = embd.transpose(0,1)
         x,(hn,cn) = self.lstm(x,(h0,c0))
@@ -113,8 +115,8 @@ class smallcharRNN(nn.Module):
         self.linear = nn.Linear(hiddensize * numdirections, classes)
         self.log_softmax = nn.LogSoftmax()
     def forward(self, x):
-        h0 = Variable(torch.zeros(self.hsize, x.size(0), self.hiddensize)).cuda()
-        c0 = Variable(torch.zeros(self.hsize, x.size(0), self.hiddensize)).cuda()
+        h0 = Variable(torch.zeros(self.hsize, x.size(0), self.hiddensize)).to(device)
+        c0 = Variable(torch.zeros(self.hsize, x.size(0), self.hiddensize)).to(device)
         # for inputs in x:
         x = x.transpose(0,1)
         x = x.transpose(0,2)

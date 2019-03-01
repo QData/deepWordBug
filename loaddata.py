@@ -9,34 +9,9 @@ if small:
     textdatafolder = 'textdata_small/'
 else:
     textdatafolder = 'textdata/'
-class fulldataset:
-    def __init__(self,filename,line=3):
-        self.output = []
-        self.content = []
-        if (line==3):
-            self.title = []
-        elif (line==4):
-            self.title = []
-            self.answer = []
-        self.columns=line
-        self.loadcsv(filename)
-    def loadcsv(self, filename, line=3):
-        reader = csv.reader(open(filename, "rb"))
-        count = 0
-        for row in reader:
-            if self.columns==2:
-                self.output.append(int(row[0]))
-                self.content.append(row[1])
-            elif self.columns==3:
-                self.output.append(int(row[0]))
-                self.title.append(row[1])
-                self.content.append(row[2])            
-            elif self.columns==4:
-                self.output.append(int(row[0]))
-                self.title.append(row[1])
-                self.content.append(row[2])                   
-                self.answer.append(row[3])
-                
+    
+
+            
 class dataset:
     def __init__(self,filename,line=3):
         self.output = []
@@ -44,7 +19,7 @@ class dataset:
         self.columns=line
         self.loadcsv(filename)
         
-    def loadcsv(self, filename, line=3):
+    def loadcsv(self, filename):
         reader = csv.reader(open(filename, "rt", encoding = "utf8"))
         count = 0
         for row in reader:
@@ -60,14 +35,18 @@ class dataset:
                 self.output.append(int(row[0])-1)
                 self.content.append((row[1] + " " + row[2] + " " + row[3]).lower())       
 def loaddata(i = 0):
-    datanames = ['ag_news','amazon_review_full','amazon_review_polarity','dbpedia','sogou_news','yahoo_answers','yelp_review_full','yelp_review_polarity','enron']
-    lines = [3,3,3,3,3,4,2,2,2]
-    classes= [4,5,2,14,5,10,5,2,2]
+    datanames = ['ag_news','amazon_review_full','amazon_review_polarity','dbpedia','sogou_news','yahoo_answers','yelp_review_full','yelp_review_polarity','enron','blog-authorship-corpus']
+    lines = [3,3,3,3,3,4,2,2,2,2]
+    classes= [4,5,2,14,5,10,5,2,2,3]
+    # if not 'blog' in datanames[i]:
     trainadd = textdatafolder+datanames[i]+'_csv/train.csv'
     testadd = textdatafolder+datanames[i]+'_csv/test.csv'
     traindata = dataset(trainadd,lines[i])
     testdata = dataset(testadd,lines[i])
     return (traindata,testdata,classes[i])
+    # else:
+    #     data = dataset()
+    #     return (traindata,testdata,classes[i])
 
 def loaddatawithtokenize(i = 0, nb_words = 20000, start_char = 1, oov_char=2, index_from=3, withraw = False, datalen = 500):
     (traindata,testdata,numclass) = loaddata(i)
@@ -96,5 +75,6 @@ def loaddatawithtokenize(i = 0, nb_words = 20000, start_char = 1, oov_char=2, in
         return traindata,testdata,tokenizer,numclass
     
 if __name__ == "__main__":
-    (traindata,testdata,numclass) = loaddata(8)
+    (traindata,testdata,numclass) = loaddata(9)
     print(len(traindata.output))
+    # blogdata('textdata/blog-authorship-corpus_csv/blogtext.csv',2)
