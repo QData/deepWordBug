@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="Andrew Norton (QData group at UVA)">
+    <!-- <link rel="icon" href="../../favicon.ico"> -->
+    <title>{{ title }} - Adversarial Playground Text</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='bs/css/bootstrap.min.css')}}" rel="stylesheet">
+    <!-- Bootstrap slider CSS -->
+    <link href="{{ url_for('static', filename='bootstrap-slider.min.css')}}" rel="stylesheet">
+    <!-- image picker css -->
+    <link href="{{ url_for('static', filename='image-picker/image-picker/image-picker.css')}}" rel="stylesheet" >
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='custom.css') }}" rel="stylesheet">
+    <!-- Plotly! -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index">Adversarial Playground Text</a>
+        </div>
+        
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="{% block deepwb_current %}{% endblock %}"><a href="dwb">DeepWordBug Text Sequence</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="starter-template">
+        {% block title_information %}
+        {% endblock %}
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="panel panel-default">
+              <div class="row">
+                <div class="col-xs-6">
+                  <h3 align = center>Original Sample</strong></h3>
+                  {% if model_name == "dwb" %}
+                  <p class="text-center" id="originalSample"></p>
+                  {% endif %}
+                  <div id="orig-sample"></div>
+                </div> 
+                <div class="col-xs-6">
+                  <h3 align = center>Original Classification</strong>
+                  <p class="text-center" id="origClass">
+                  <div id="orig-likelihoods"></div>
+                </div>
+              </div><!-- end of row 1 -->
+
+              <div class="row">
+                <div class="col-xs-6">
+                  <h3 align = center>Adversarial Sample</strong></h3>
+                  {% if model_name == "dwb" %}
+                  <p class="text-center" id="advSample"></p>
+                  {% endif %}
+                  <div id="adv-sample"></div>
+                </div>
+                <div class="col-xs-6">
+                  <h3 align = center>Adversarial Classifications</strong>
+                  <p class="text-center" id="advClass">
+                  <div id="adv-likelihoods"></div>
+                </div>
+              </div> <!-- end of row 2 -->
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-default">
+            <div class="panel-heading"><h3 class = "panel-title"> Options </h3></div>
+            <div class="panel-body">
+              <h4> <strong> Input String:</strong>
+                <input id="s" type="text"/>
+              </h4>
+              {% if model_name == "dwb" %}
+              <p class="text-right">
+                <button type="button" class="btn btn-success">Generate Adversarial Text Sample</button>
+              </p>
+              {% else %}
+              <p class="text-right">
+                <button type="button" class="btn btn-primary">Generate Adversarial Sample</button>
+              </p>
+              {% endif %}
+
+              <style>
+                div.padded {
+                padding-top: 10px;
+              }   
+              </style>  
+
+<!--               <h4> <strong><div class = "padded"> Model Type: </strong></div>
+              <div class = "padded">
+              <select id="dwbModelType" class="form-control">
+                <option value="simplernn">simplernn</option>
+                <option value="bilstm">bilstm</option>
+                <option value="charcnn">charcnn</option>
+              </select>
+              </div>
+              </h4> -->
+
+              <h4> <strong><div class = "padded"> Model: </strong></div>
+              <div class = "padded">
+              <select id="dwbModelNum" class="form-control">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+              </select>
+              </div>
+              </h4>
+
+              <h4> <strong><div class = "padded"> Power (# words w/chars modified): </strong></div>
+              <div class = "padded">
+              <select id="dwbPower" class="form-control">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+              </div>
+              </h4>
+
+              <h4> <strong><div class = "padded"> Scoring Algorithm: </strong></div>
+              <div class = "padded">
+              <select id="dwbScoring" class="form-control">
+                <option value="combined">combined</option>
+                <option value="temporal">temporal</option>
+                <option value="tail">tail</option>
+                <option value="replaceone">replaceone</option>
+                <option value="random">random</option>
+                <option value="grad">grad</option>
+              </select>
+              </div>
+              </h4>
+
+              <h4> <strong><div class = "padded"> Transformer Algorithm: </strong></div>
+              <div class = "padded">
+              <select id="dwbTransform" class="form-control">
+                <option value="swap">swap</option>
+                <option value="flip">flip</option>
+                <option value="insert">insert</option>
+                <option value="remove">remove</option>
+              </select>
+              </div>
+              </h4>
+
+            </div>
+        </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class = "panel-title">Adversary Class</h3>
+            </div>
+            <div class="panel-body">
+              <p class="text-center" id="classParagraph">
+                (Generate adversarial text sample to view classification)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='image-picker/image-picker/image-picker.min.js')}}"></script>
+
+    <script>
+      // Gotta get that image picker working
+      jQuery("select.image-picker").imagepicker({show_label:false});
+
+      var plot_layout = {
+          margin: {
+            l: 25,
+            r: 25,
+            b: 25,
+            t: 25,
+            pad: 2
+          },
+        };
+      var chart_layout = {
+          margin: {
+            l: 25,
+            r: 25,
+            b: 25,
+            t: 25,
+            pad: 2
+          },
+          xaxis: {
+            // title: 'Class',
+            dtick:1
+          },
+          yaxis: {
+           // title: 'Score',
+           range: [-10, 20],
+           showgrid: false,
+           zeroline: false
+          },
+
+        };
+
+      function plotNormalSample() {
+        var srcDropdown = document.getElementById("seedNames");
+        var srcClass = srcDropdown.options[srcDropdown.selectedIndex].value;
+
+        $.post("get_normal", {sample_id:srcClass},
+        function(data, status){
+          Plotly.newPlot('orig-sample', data['image_data'], plot_layout);
+          Plotly.newPlot('orig-likelihoods', data['likelihood_data'], chart_layout);
+        }, "json");
+      }
+
+      $(document).ready(function(){  
+        if ("{{model_name}}" == "dwb") {
+          $("button").click(function(){
+            
+            var s = document.getElementById("s").value;
+            var dwb_model_num = document.getElementById("dwbModelNum").value;
+            var dwb_power = document.getElementById("dwbPower").value;
+            var dwb_scoring = document.getElementById("dwbScoring").value;
+            var dwb_transform = document.getElementById("dwbTransform").value;
+
+            $.post("run_adversary",
+            {
+              model_name      : "{{model_name}}",
+              input_string    : s, 
+              dwb_model_num   : dwb_model_num,
+              dwb_power       : dwb_power,
+              dwb_scoring     : dwb_scoring,
+              dwb_transform   : dwb_transform,
+            },
+
+            function(data,status){
+              var orig_text = data['original_text_data'];
+              var adv_text = data['adv_text_data'];
+              var orig_class = data['original_class'];
+              var adv_class = data['adversary_class'];
+              var newText = "";
+
+              // Convert original and adversarial texts to vector of words
+              var orig_text_vec = String(orig_text).split(" ");
+              //window.alert("hi")
+              var adv_text_vec = String(adv_text).split(" ");
+
+              for (var i = 0; i < orig_text_vec.length; i++) {
+                for (var j = 0; j < String(orig_text_vec[i]).length; j++) {
+                  if (String(adv_text_vec[i]).charAt(j) != String(orig_text_vec[i]).charAt(j)) {
+                      newText += String(adv_text_vec[i]).charAt(j).fontcolor("red");
+                   }
+                   else {
+                      newText += String(adv_text_vec[i]).charAt(j);
+                  }
+                } 
+                newText += " ";
+              }
+              classParagraph.innerHTML = "<h3>" + data['adversary_class'] + "</h3>";
+              originalSample.innerHTML = "<h4><br>" + orig_text + "</h4>";
+              advSample.innerHTML = "<h4><br>" + newText + "</h4>";
+              origClass.innerHTML = "<h4><br>" + orig_class + "</h4>";
+              advClass.innerHTML = "<h4><br>" + adv_class + "</h4>";
+            }, "json");
+          });
+        }  
+      });
+
+    </script>
+    
+    <script src="{{ url_for('static', filename='bs/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap-slider.min.js') }}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!--<script src="{{ url_for('static', filename='bs/js/ie10-viewport-bug-workaround.js')}}"></script>-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-100959649-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
