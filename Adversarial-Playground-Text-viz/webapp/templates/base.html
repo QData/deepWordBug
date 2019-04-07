@@ -13,8 +13,6 @@
     <link href="{{ url_for('static', filename='bs/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Bootstrap slider CSS -->
     <link href="{{ url_for('static', filename='bootstrap-slider.min.css')}}" rel="stylesheet">
-    <!-- image picker css -->
-    <link href="{{ url_for('static', filename='image-picker/image-picker/image-picker.css')}}" rel="stylesheet" >
     <!-- Custom styles for this template -->
     <link href="{{ url_for('static', filename='custom.css') }}" rel="stylesheet">
     <!-- Plotly! -->
@@ -22,6 +20,13 @@
   </head>
 
   <body>
+
+    <!-- CSS Style -->
+    <style>
+      div.padded {
+        padding-top: 10px;
+      } 
+    </style> 
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -42,10 +47,25 @@
       <div class="starter-template">
         {% block title_information %}
         {% endblock %}
+        
+        <h4 align=left style='font-size: 17px; display:inline'> Choose a model! </h4>
+        <h4 align=left style='font-size: 17px; color:rgb(0,66,200); display:inline'>
+          <input type="Radio" Name="model" Value="0"> 0: AGNews &nbsp
+          <input type="Radio" Name="model" Value="1"> 1: Amazon  (1-5) &nbsp
+          <input type="Radio" Name="model" Value="2"> 2: Amazon  (+/-) &nbsp
+          <input type="Radio" Name="model" Value="3"> 3: DBPedia &nbsp 
+          <input type="Radio" Name="model" Value="5"> 5: Yahoo Answers &nbsp
+          <input type="Radio" Name="model" Value="6"> 6: Yelp  (1-5) &nbsp
+          <input type="Radio" Name="model" Value="7"> 7: Yelp  (+/-) &nbsp
+        </h4>
       </div>
+
       <div class="row">
+        <!-- Column 1: Data -->
         <div class="col-md-8">
           <div class="panel panel-default">
+
+            <!-- Row 1: text samples -->
               <div class="row">
                 <div class="col-xs-6">
                   <h3 align = center>Original Sample</strong></h3>
@@ -55,39 +75,58 @@
                   <div id="orig-sample"></div>
                 </div> 
                 <div class="col-xs-6">
-                  <h3 align = center>Original Classification</strong>
-                  <p class="text-center" id="origClass">
-                  <div id="orig-likelihoods"></div>
-                </div>
-              </div><!-- end of row 1 -->
-
-              <div class="row">
-                <div class="col-xs-6">
                   <h3 align = center>Adversarial Sample</strong></h3>
                   {% if model_name == "dwb" %}
                   <p class="text-center" id="advSample"></p>
                   {% endif %}
-                  <div id="adv-sample"></div>
+                  <div id="adv-sample">
+                  </div>
+                </div><!-- end of row 1 -->
+
+              <!-- Row 2: Classification aka Sports, Category 1, etc ... -->
+              <div class="row">
+                <div class="col-xs-6">
+                  <h3 align = center>Original Class</strong>
+                  <p class="text-center" id="origClass">
+                  <div id="orig-class"></div>
                 </div>
                 <div class="col-xs-6">
-                  <h3 align = center>Adversarial Classifications</strong>
+                  <h3 align = center>Adversarial Class</strong>
                   <p class="text-center" id="advClass">
-                  <div id="adv-likelihoods"></div>
+                  <div id="adv-class"></div>
                 </div>
               </div> <!-- end of row 2 -->
 
+              <!-- Row 3: Plot of classification probabilities -->
+              <div class="row">
+                <div class="col-xs-6">
+                  <h3 align = center>Original Classification</strong>
+                  <p class="text-center" id="origLikelihood">
+                  <div id="orig-likelihoods"></div>
+                </div>
+                <div class="col-xs-6">
+                  <h3 align = center>Adversarial Classification</strong>
+                  <p class="text-center" id="advLikelihood">
+                  <div id="adv-likelihoods"></div>
+                </div>
+              </div> <!-- end of row 3 -->
+            </div>
           </div>
         </div>
+
+        <!-- Column 2: Menu of parameter options -->
         <div class="col-md-4">
           <div class="panel panel-default">
             <div class="panel-heading"><h3 class = "panel-title"> Options </h3></div>
             <div class="panel-body">
-              <h4> <strong> Input String:</strong>
+              <h4> <strong> Input String: </strong>
                 <input id="s" type="text"/>
               </h4>
+
+              <!-- DeepWordBug model is for text data specifically -->
               {% if model_name == "dwb" %}
-              <p class="text-right">
-                <button type="button" class="btn btn-success">Generate Adversarial Text Sample</button>
+              <p class="text-right" style="color:white">
+                <button type="button" style="background-color:#1A76FF">Generate Adversarial Text Sample</button>
               </p>
               {% else %}
               <p class="text-right">
@@ -95,50 +134,9 @@
               </p>
               {% endif %}
 
-              <style>
-                div.padded {
-                padding-top: 10px;
-              }   
-              </style>  
-
-<!--               <h4> <strong><div class = "padded"> Model Type: </strong></div>
-              <div class = "padded">
-              <select id="dwbModelType" class="form-control">
-                <option value="simplernn">simplernn</option>
-                <option value="bilstm">bilstm</option>
-                <option value="charcnn">charcnn</option>
-              </select>
-              </div>
-              </h4> -->
-
-              <h4> <strong><div class = "padded"> Model: </strong></div>
-              <div class = "padded">
-              <select id="dwbModelNum" class="form-control">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-              </select>
-              </div>
-              </h4>
-
               <h4> <strong><div class = "padded"> Power (# words w/chars modified): </strong></div>
               <div class = "padded">
-              <select id="dwbPower" class="form-control">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-              </select>
+                <input type="number" id="dwbPower" class="form-control">
               </div>
               </h4>
 
@@ -165,22 +163,11 @@
               </select>
               </div>
               </h4>
-
             </div>
         </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class = "panel-title">Adversary Class</h3>
-            </div>
-            <div class="panel-body">
-              <p class="text-center" id="classParagraph">
-                (Generate adversarial text sample to view classification)
-              </p>
-            </div>
-          </div>
         </div>
       </div>
-    </div><!-- /.container -->
+    </div>
 
 
     <!-- Bootstrap core JavaScript
@@ -193,53 +180,14 @@
       // Gotta get that image picker working
       jQuery("select.image-picker").imagepicker({show_label:false});
 
-      var plot_layout = {
-          margin: {
-            l: 25,
-            r: 25,
-            b: 25,
-            t: 25,
-            pad: 2
-          },
-        };
-      var chart_layout = {
-          margin: {
-            l: 25,
-            r: 25,
-            b: 25,
-            t: 25,
-            pad: 2
-          },
-          xaxis: {
-            // title: 'Class',
-            dtick:1
-          },
-          yaxis: {
-           // title: 'Score',
-           range: [-10, 20],
-           showgrid: false,
-           zeroline: false
-          },
-
-        };
-
-      function plotNormalSample() {
-        var srcDropdown = document.getElementById("seedNames");
-        var srcClass = srcDropdown.options[srcDropdown.selectedIndex].value;
-
-        $.post("get_normal", {sample_id:srcClass},
-        function(data, status){
-          Plotly.newPlot('orig-sample', data['image_data'], plot_layout);
-          Plotly.newPlot('orig-likelihoods', data['likelihood_data'], chart_layout);
-        }, "json");
-      }
-
       $(document).ready(function(){  
         if ("{{model_name}}" == "dwb") {
           $("button").click(function(){
             
             var s = document.getElementById("s").value;
-            var dwb_model_num = document.getElementById("dwbModelNum").value;
+            // var dwb_model_num = document.getElementById("dwbModelNum").value;
+            // dwb_model_num = dwb_model_num.substring(0, 1);
+            var model_button = $("input[name='model']:checked").val();
             var dwb_power = document.getElementById("dwbPower").value;
             var dwb_scoring = document.getElementById("dwbScoring").value;
             var dwb_transform = document.getElementById("dwbTransform").value;
@@ -248,7 +196,7 @@
             {
               model_name      : "{{model_name}}",
               input_string    : s, 
-              dwb_model_num   : dwb_model_num,
+              dwb_model_num   : model_button,
               dwb_power       : dwb_power,
               dwb_scoring     : dwb_scoring,
               dwb_transform   : dwb_transform,
@@ -259,29 +207,66 @@
               var adv_text = data['adv_text_data'];
               var orig_class = data['original_class'];
               var adv_class = data['adversary_class'];
-              var newText = "";
+              var newOrigText = "";
+              var newAdvText = "";
+              var max_scores = data['max_scores'];
 
               // Convert original and adversarial texts to vector of words
               var orig_text_vec = String(orig_text).split(" ");
-              //window.alert("hi")
               var adv_text_vec = String(adv_text).split(" ");
 
+              // Heatmap like indicator for top 2 most important tokens.
               for (var i = 0; i < orig_text_vec.length; i++) {
+                if (i == max_scores[0]) {
+                  newOrigText += "<p style = 'display:inline; font-size:36px'>";
+                  newAdvText += "<p style = 'display:inline; font-size:36px'>";
+                }
+                else if (i == max_scores[1]) {
+                  newOrigText += "<p style = 'display:inline; font-size:24px'>";
+                  newAdvText += "<p style = 'display:inline; font-size:24px'>";
+                }
                 for (var j = 0; j < String(orig_text_vec[i]).length; j++) {
                   if (String(adv_text_vec[i]).charAt(j) != String(orig_text_vec[i]).charAt(j)) {
-                      newText += String(adv_text_vec[i]).charAt(j).fontcolor("red");
+                      newAdvText += String(adv_text_vec[i]).charAt(j).fontcolor("red");
                    }
                    else {
-                      newText += String(adv_text_vec[i]).charAt(j);
+                      newAdvText += String(adv_text_vec[i]).charAt(j);
                   }
+                  newOrigText += String(orig_text_vec[i]).charAt(j);
+                }
+                if (i == max_scores[0] || i == max_scores[1]) {
+                  newOrigText += "</p>";
+                  newAdvText += "</p>";
                 } 
-                newText += " ";
+                newOrigText += " ";
+                newAdvText += " ";
               }
-              classParagraph.innerHTML = "<h3>" + data['adversary_class'] + "</h3>";
-              originalSample.innerHTML = "<h4><br>" + orig_text + "</h4>";
-              advSample.innerHTML = "<h4><br>" + newText + "</h4>";
+
+              var chart_layout = {
+                margin: {
+                  l: 75,
+                  r: 75,
+                  b: 50,
+                  t: 50,
+                  pad: 2
+                },
+                xaxis: {
+                  tickmode: 'linear',
+                },
+                yaxis: {
+                 title: 'Probability',
+                 showgrid: false,
+                 zeroline: true,
+                 showline: true,
+                },
+              };
+
+              originalSample.innerHTML = "<p style = 'display:inline;'><br>" + newOrigText + "</p>";
+              advSample.innerHTML = "<p style = 'display:inline;'><br>" + newAdvText + "</p>";
               origClass.innerHTML = "<h4><br>" + orig_class + "</h4>";
               advClass.innerHTML = "<h4><br>" + adv_class + "</h4>";
+              Plotly.newPlot('orig-likelihoods', data['orig_likelihood_data'], chart_layout);
+              Plotly.newPlot('adv-likelihoods', data['adv_likelihood_data'], chart_layout);
             }, "json");
           });
         }  

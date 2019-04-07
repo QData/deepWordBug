@@ -94,10 +94,11 @@ def visualize(input_str, model_num, power, scoring_alg, transformer_alg, dict_wo
         res1 = viz_model(input_seq)
         pred1 = torch.max(res1, 1)[1].view(-1)
         losses = scoring.scorefunc(scoring_alg)(viz_model, input_seq, pred1, numclass)
+
+        # Use the losses to get the scores and pick top 2 to display heatmap
+        max_scores = losses.numpy().argsort()[0][::-1][0:2]
         print(losses)
-        print(type(losses))
-        # use the losses to get the scores
-        #losses.to_numpy()
+        print(max_scores)
 
         print(input_str)
         pred1 = pred1.item()
@@ -123,13 +124,13 @@ def visualize(input_str, model_num, power, scoring_alg, transformer_alg, dict_wo
         output2 = viz_model(advinputs)
         pred2 = torch.max(output2, 1)[1].view(-1).item()
         adv_str = recoveradv(input_str.lower(), index2word, input_seq[0], wtmp)
-        print(adv_str)
-        print('adversarial:', classes_list[pred2])
-        print(torch.exp(res1).detach().cpu()[0])
-        #return (input_str, torch.exp(res1).detach().cpu()[0], classes_list[pred1], adv_str, torch.exp(output2).detach().cpu()[0], classes_list[pred2])
-        #-> exp is the probability classes
-        # Return orig class, adv class, and adv example
-        return (classes_list[pred1], classes_list[pred2], adv_str)
+
+        # 1) exp = the probability classes
+        # 2) res1 = original, output2 = adversarial
+        # Return: orig class, adv class, adv example, orig_likelihood, adv_likelihood, 
+        #    class list (for x axis of plot), max_scores for heatmap
+        return (classes_list[pred1], classes_list[pred2], adv_str, 
+            torch.exp(res1).detach().cpu()[0], torch.exp(output2).detach().cpu()[0], classes_list, max_scores)
 
     else:
         raise Exception('Wrong mode %s' % mode)

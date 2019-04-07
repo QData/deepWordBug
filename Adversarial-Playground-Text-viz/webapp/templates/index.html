@@ -63,15 +63,41 @@
                 <h4>About the Attacks</h4>
                 
                 <h5><br>DeepWordBug Algorithm</h5>
-                The core idea of this algorithm is to generate efficient adversarial samples on text input. The algorithm can attack both Char and Word model in a fast and black-box manner. <br><br>
+                The core idea of this algorithm is to generate efficient adversarial samples on text input. The algorithm can attack both Char and Word model in a fast and black-box manner. For most effective usage, please input a text sequence of at least 5 words. <br><br>
 
                 Notable features of the DeepWordBug are the model, power, transformer algorithm, and scoring algorithm.
 
                 <ul><br>
-                    <li>Model: </li><br>
-                    <li>Power: </li><br>
-                    <li>Transformer Algorithm: </li><br>
-                    <li>Scoring Algorithm: </li><br>
+                    <li>Model: <br><br>
+                      (0) AG News:  <br>
+                      (1) Amazon Review (Full):  <br>
+                      (2) Amazon Review (Polarity):  <br>
+                      (3) DBPedia:  <br>
+                      (5) Yahoo Answers : <br>
+                      (6) Yelp Review (Full):  <br>
+                      (7) Yelp Review (Polarity):  <br>
+                      * Dataset 4 was omitted, because it is for Chinese Pinyin.
+                    </li><br>
+                    <li>Power: <br><br>
+                    The number of words per sequence that will be modified. If this number is higher than the length of the text sequence, then all the words in the sequence will be modified. </li><br>
+                    <li>Scoring Algorithm: <br><br>
+                      (1) Combined: Combination of the next two options Combined_score(x) = THS(x) + λ(TTS(x)) <br>
+                      (2) Temporal: aka Temporal Head Score (THS),  <br>
+                      (3) Tail: aka Temporal Tail Score (TTS), <br>
+                      (4) Replaceone: Score of the . <br>
+                      (5) Random (baseline): This scoring function randomly selects tokens as targets. 
+                            In other words, it has no method to determine which tokens to attack. <br>
+                      (6) Gradient (baseline): Contrary to random selection which
+                            uses no knowledge of the model, we also compare to full
+                            knowledge of the model, where gradients are used to find
+                            the most important tokens. <br>
+                    </li><br>
+                    <li>Transformer Algorithm: <br><br>
+                      (1) Swap: Swap two adjacent letters in the word. <br>
+                      (2) Substitution: Substitute a letter in the word with a random letter. <br>
+                      (3) Deletion: Delete a random letter from the word. <br>
+                      (4) Insertion: Insert a random letter in the word. <br>
+                    </li><br>
                 </ul>
 
               </div>
@@ -95,7 +121,7 @@
             </div>
             <div class="panel-body">
               <p>
-                The entire project is open-source; code is on <a href="https://github.com/QData/AdversarialDNN-Playground">GitHub</a>.
+                The entire project is open-source; code is in the DeepWordBug repo here <a href="https://github.com/QData/deepWordBug/tree/master/Adversarial-Playground-Text-viz">GitHub</a>.
               </p>
             </div>
           </div>
@@ -106,7 +132,7 @@
             </div>
             <div class="panel-body">
               <p>
-                The entire project is open-source; code is on <a href="https://github.com/QData/AdversarialDNN-Playground">GitHub</a>.
+                This project is based on Adversarial Playground, a project by Andrew Norton and Professor Yanjun Qi. Code here: <a href="https://github.com/QData/AdversarialDNN-Playground">GitHub</a>.
               </p>
             </div>
           </div>

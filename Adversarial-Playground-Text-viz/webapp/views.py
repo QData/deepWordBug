@@ -32,60 +32,36 @@ def run_adversary():
     scoring = request.form['dwb_scoring']
     transform = request.form['dwb_transform']
 
-    original_class, adversary_class, adv_example = dwb_model.visualize(s, model_num, power, scoring, transform)
+    original_class, adversary_class, adv_example, orig_likelihoods, adv_likelihoods, classes_list, max_scores, = dwb_model.visualize(
+      s, model_num, power, scoring, transform)
 
     print(s)
     print(adversary_class)
     print(adv_example)
+    print(orig_likelihoods)
+    print(adv_likelihoods)
+    print(classes_list)
 
-    ret_val = {
-      'original_class': original_class, 
-      'adversary_class': adversary_class,
-      'original_text_data': [s],
-      'adv_text_data': [adv_example],
-    }
-    return json.dumps(ret_val)
+  ret_val = {
+    'original_class': original_class, 
+    'adversary_class': adversary_class,
+    'original_text_data': [s],
+    'adv_text_data': [adv_example],
 
-  print(model_name)
+    'orig_likelihood_data': [{
+      'x': classes_list,
+      'y': [float(y) for y in orig_likelihoods],
+      'marker': dict(color='rgb(26, 118, 255)'),
+      'type':'bar'
+    }],
+    'adv_likelihood_data': [{
+      'x': classes_list,
+      'y': [float(y) for y in adv_likelihoods],
+      'marker': dict(color='rgb(26, 118, 255)'),
+      'type':'bar'
+    }],
 
-  # if model_name == 'fjsma':
-  #   # Perform tensor flow request
-  #   upsilon_value = request.form['attack_param']
-  #   target_value  = int(request.form['target'])
-  #   print('Performing the fjsma L0 attack from {} to {}'.format(seed_class, target_value))
+    'max_scores': max_scores.tolist(),
+  }
 
-  #   adversary_class, adv_example, adv_likelihoods = l0_model.attack(seed_image, target_value, upsilon_value, fast=True)
-
-  # elif model_name =='Linf':
-  #   epsilon_value = request.form['attack_param']
-  #   adversary_class, adv_example, adv_likelihoods = linf_model.fgsm(seed_image, seed_class, epsilon_value)
-    
-  # print('New adversary is classified as {}'.format(adversary_class))
-  # ret_val = {
-  #             'adversary_class':str(adversary_class), 
-  #             'image_data': [{
-  #                 'z' : list(reversed(adv_example.tolist())) if adv_example is not None else '',
-  #                 'type': 'heatmap',
-  #                 'colorscale': [
-  #                     ['0.0',            'rgb(0.00,0.00,0.00)'],
-  #                     ['0.111111111111', 'rgb(28.44,28.44,28.44'],
-  #                     ['0.222222222222', 'rgb(56.89,56.89,56.89)'],
-  #                     ['0.333333333333', 'rgb(85.33,85.33,85.33)'],
-  #                     ['0.444444444444', 'rgb(113.78,113.78,113.78)'],
-  #                     ['0.555555555556', 'rgb(142.22,142.22,142.22)'],
-  #                     ['0.666666666667', 'rgb(170.67,170.67,170.67)'],
-  #                     ['0.777777777778', 'rgb(199.11,199.11,199.11)'],
-  #                     ['0.888888888889', 'rgb(227.56,227.56,227.56)'],
-  #                     ['1.0',            'rgb(256.00,256.00,256.00)']
-  #                   ],
-  #                 'showscale':'false',
-  #                 'showlegend':'false',
-  #               }],
-  #               'likelihood_data': [{
-  #                 'x':list(range(10)),
-  #                 'y':[float(x) for x in adv_likelihoods],
-  #                 'type':'bar'
-  #               }],
-  #           }
-  # return json.dumps(ret_val)
-  
+  return json.dumps(ret_val)
