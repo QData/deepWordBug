@@ -48,6 +48,7 @@
         {% block title_information %}
         {% endblock %}
         
+        <!-- Menu to select model -->
         <h4 align=left style='font-size: 17px; display:inline'> Choose a model! </h4>
         <h4 align=left style='font-size: 17px; color:rgb(0,66,200); display:inline'>
           <input type="Radio" Name="model" Value="0"> 0: AGNews &nbsp
@@ -134,6 +135,7 @@
               </p>
               {% endif %}
 
+              <!-- Menu of parameters; power, scoring, and transformer algorithm -->
               <h4> <strong><div class = "padded"> Power (# words w/chars modified): </strong></div>
               <div class = "padded">
                 <input type="number" id="dwbPower" class="form-control">
@@ -177,16 +179,12 @@
     <script src="{{ url_for('static', filename='image-picker/image-picker/image-picker.min.js')}}"></script>
 
     <script>
-      // Gotta get that image picker working
-      jQuery("select.image-picker").imagepicker({show_label:false});
 
       $(document).ready(function(){  
         if ("{{model_name}}" == "dwb") {
           $("button").click(function(){
             
             var s = document.getElementById("s").value;
-            // var dwb_model_num = document.getElementById("dwbModelNum").value;
-            // dwb_model_num = dwb_model_num.substring(0, 1);
             var model_button = $("input[name='model']:checked").val();
             var dwb_power = document.getElementById("dwbPower").value;
             var dwb_scoring = document.getElementById("dwbScoring").value;
@@ -203,6 +201,7 @@
             },
 
             function(data,status){
+              // Retrieve the data
               var orig_text = data['original_text_data'];
               var adv_text = data['adv_text_data'];
               var orig_class = data['original_class'];
@@ -242,6 +241,34 @@
                 newAdvText += " ";
               }
 
+              // Add identifying text for the resulting classes of each model
+              model_int = parseInt(model_button, 10);
+              if (model_int == 1 || model_int == 6) {
+                var orig_stars = parseInt(data['original_class'], 10);
+                var adv_stars = parseInt(data['adversary_class'], 10);
+
+                star_string = "&#9733";
+                star_string = star_string.repeat(orig_class);
+                orig_class += " " + star_string + " Review";
+
+                star_string = "&#9733";
+                star_string = star_string.repeat(adv_class);
+                adv_class += " " + star_string + " Review";
+              }
+              else if (model_int == 0) {
+                orig_class += " News";
+                adv_class += " News";
+              }
+              else if (model_int == 2 || model_int == 7) {
+                orig_class += " Review";
+                adv_class += " Review";
+              }
+              else if (model_int == 3 || model_int == 5) {
+                orig_class += " Category";
+                adv_class += " Category";
+              }
+
+              // Chart layout: the settings (like margins, colors, etc ...) for the graphs in Plotly
               var chart_layout = {
                 margin: {
                   l: 75,
@@ -255,12 +282,14 @@
                 },
                 yaxis: {
                  title: 'Probability',
+                 range: [0, 1],
                  showgrid: false,
                  zeroline: true,
                  showline: true,
                 },
               };
 
+              // Write the data to the 6 categories listed below
               originalSample.innerHTML = "<p style = 'display:inline;'><br>" + newOrigText + "</p>";
               advSample.innerHTML = "<p style = 'display:inline;'><br>" + newAdvText + "</p>";
               origClass.innerHTML = "<h4><br>" + orig_class + "</h4>";

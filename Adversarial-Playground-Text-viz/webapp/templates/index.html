@@ -36,7 +36,7 @@
     <div class="container">
 
       <div class="starter-template">
-        <h1>Adversarial Playground Text</h1>
+        <h1>Adversarial Text Playground </h1>
       </div>
       <div class="row">
         <div class="col-md-8">
@@ -46,53 +46,46 @@
               </div>
               <div class="panel-body">
                 <p>
-                In recent years, Deep Neural Networks have become an essential tool for many machine learning tasks, especially image classification.  However, this has given rise to the study of <em>adversarial samples</em>--carefully crafted inputs for a neural network that result in an incorrect classification.
+                In recent years, Deep Neural Networks have become an essential tool for many machine learning tasks, especially image classification.  However, this has given rise to the study of <em>adversarial samples</em> - carefully crafted inputs for a neural network that result in an incorrect classification.
                 </p>
                 <p>
-                In the spirit of the TensorFlow Playground, we present the Adversarial Playground Text: a web-based visualization tool to assist users in understanding the differences between common adversarial machine learning techniques. This application is based off of a previous project from the QData group: Andrew Norton's Adversarial Playground, however this application focuses on adversarial attacks on text. 
+                In the spirit of the TensorFlow Playground, we present the Adversarial Text Playground: a web-based visualization tool to assist users in understanding the differences between common adversarial machine learning techniques. This application is based off of a previous project from the QData group: Andrew Norton's Adversarial Playground, however this application focuses on adversarial attacks on text. Adversarial Text Playground makes a number of additions and improvements to help better educate and interact with users about how adversarial examples work. This project adds three new goals of user-friendliness, visual aid, and extendibility to Norton’s original goals for Adversarial-Playground to be educational, modular, interactive. 
                 </p><br>
 
-<!--                 <h4>Usage</h4>
-                <p>
-                We allow multiple types of adversarial attacks on text, accessible through the top navigation bar:
-                  <ul>
-                    <li>DeepWordBug Algorithm </li><br>
-                  </ul>
-                </p> -->
 
                 <h4>About the Attacks</h4>
                 
                 <h5><br>DeepWordBug Algorithm</h5>
-                The core idea of this algorithm is to generate efficient adversarial samples on text input. The algorithm can attack both Char and Word model in a fast and black-box manner. For most effective usage, please input a text sequence of at least 5 words. <br><br>
-
+                The core idea of this algorithm is to generate efficient adversarial samples on text input. The algorithm can attack text sequence inputs in a fast, black-box manner. DeepWordBug presents novel scoring strategies, outlined below, to identify critical tokens in a text sequence input that, if modified, can cause classifiers to incorrectly classify inputs with a high probability. Simple character-level transformations are applied to those highest-ranked critical tokens to minimize the differences, also known as the edit distance, between the original input and the generated adversarial example. For most effective usage, please input a text sequence of at least 5 words. <br><br>
                 Notable features of the DeepWordBug are the model, power, transformer algorithm, and scoring algorithm.
 
                 <ul><br>
-                    <li>Model: <br><br>
-                      (0) AG News:  <br>
-                      (1) Amazon Review (Full):  <br>
-                      (2) Amazon Review (Polarity):  <br>
-                      (3) DBPedia:  <br>
-                      (5) Yahoo Answers : <br>
-                      (6) Yelp Review (Full):  <br>
-                      (7) Yelp Review (Polarity):  <br>
+                    <li><strong> Model: <br><br></strong>
+                      This describes the underlying dataset being used in the DeepWordBug algorithm. <br>
+                      (0) AG News: Inputs are classified into typical news category. <br>
+                      (1) Amazon Review (Full): Full means that a full rating system between 1 and 5 stars is used. <br>
+                      (2) Amazon Review (Polarity): Polarity is more simplistic than the Full system since it only classifies inputs as Negative or Positive  <br>
+                      (3) DBPedia: Inputs are classified into the encyclopedia topic category that fits the input the best. <br>
+                      (5) Yahoo Answers: Inputs are classified into the category they would be placed in if a question were asked on Yahoo Answers. <br>
+                      (6) Yelp Review (Full): 1-5 Stars <br>
+                      (7) Yelp Review (Polarity): Negative or positive <br>
                       * Dataset 4 was omitted, because it is for Chinese Pinyin.
                     </li><br>
-                    <li>Power: <br><br>
-                    The number of words per sequence that will be modified. If this number is higher than the length of the text sequence, then all the words in the sequence will be modified. </li><br>
-                    <li>Scoring Algorithm: <br><br>
-                      (1) Combined: Combination of the next two options Combined_score(x) = THS(x) + λ(TTS(x)) <br>
-                      (2) Temporal: aka Temporal Head Score (THS),  <br>
-                      (3) Tail: aka Temporal Tail Score (TTS), <br>
-                      (4) Replaceone: Score of the . <br>
-                      (5) Random (baseline): This scoring function randomly selects tokens as targets. 
-                            In other words, it has no method to determine which tokens to attack. <br>
-                      (6) Gradient (baseline): Contrary to random selection which
-                            uses no knowledge of the model, we also compare to full
-                            knowledge of the model, where gradients are used to find
-                            the most important tokens. <br>
+
+                    <li><strong> Power: <br><br></strong>
+                    The number of words per sequence that will be modified. If this number is higher than the length of the text sequence, then all the words in the sequence will be modified. 
                     </li><br>
-                    <li>Transformer Algorithm: <br><br>
+
+                    <li><strong> Scoring Algorithm: <br><br></strong>
+                      (1) Combined: Combination of the next two options Combined_score(x) = THS(x) + λ(TTS(x)) <br>
+                      (2) Temporal: aka Temporal Head Score (THS) is the difference between the model’s prediction score as it reads up to the ith token and the model’s prediction score as it reads up to the (i-1)th token. <br>
+                      (3) Tail: aka Temporal Tail Score (TTS) is the complement of the THS. TTS computes the difference between two trailing parts of an input sequence where one contains the token and the other does not. <br>
+                      (4) Replaceone: Score of the sequence with and without the token. <br>
+                      (5) Random (baseline): This scoring function randomly selects tokens as targets. In other words, it has no method to determine which tokens to attack. <br>
+                      (6) Gradient (baseline): Contrary to random selection which uses no knowledge of the model, we also compare to full knowledge of the model, where gradients are used to find the most important tokens. <br>
+                    </li><br>
+
+                    <li><strong> Transformer Algorithm: <br><br></strong>
                       (1) Swap: Swap two adjacent letters in the word. <br>
                       (2) Substitution: Substitute a letter in the word with a random letter. <br>
                       (3) Deletion: Delete a random letter from the word. <br>
