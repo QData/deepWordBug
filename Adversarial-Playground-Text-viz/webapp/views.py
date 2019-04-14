@@ -13,12 +13,14 @@ from webapp.models import dwb_model
 def index():
   return render_template('index.html', title='Home')
 
+# Example of how to add backend model to frontend template.
 @app.route('/dwb')
 def dwb():
   return render_template('deepwordbug.html',
       title='DeepWordBug Text Sequence',
       model_name="dwb",)
   
+# Actually run the model
 @app.route('/run_adversary', methods=['POST'])
 def run_adversary():
   print('Starting adversary generation')
@@ -41,6 +43,8 @@ def run_adversary():
     print(orig_likelihoods)
     print(adv_likelihoods)
     print(classes_list)
+
+  # else if: add your code here!
 
   ret_val = {
     'original_class': original_class, 

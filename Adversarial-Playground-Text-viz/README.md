@@ -14,10 +14,10 @@ How to Add Code
 
 The code structure for Adversarial Text Playground is very simple, modular, and easy to add to.
 
-Backend code (machine learning algorithm):
+<strong>Backend code </strong>(machine learning algorithm): place all relevant files in the webapp/models folder. Connect the model to the frontend code in the views.py file. Follow the example given for the deepwordbug model. 
+<strong>Frontend code </strong>(for the actual visualization): place this in the webapp/templates folder. One template file per algorithm. Each new template file represents a new tab on the top navigation bar.  
 
-Frontend code:
-
+The index.html file can be easily added to for any additional algorithms. The base.html file provides a guideline for how to achieve all the features listed above. The deepwordbug.html file demonstrates how to add a tab for a new algorithm in Adversarial-Text-Playground. There are extensive comments throughout each file to show exactly how and where code should be added. 
 
 
 
