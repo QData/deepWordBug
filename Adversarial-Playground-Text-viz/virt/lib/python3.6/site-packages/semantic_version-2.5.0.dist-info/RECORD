@@ -1,0 +1,15 @@
+semantic_version-2.5.0.dist-info/DESCRIPTION.rst,sha256=X7OTutTNzElLPVK9gc0fvOKKxJr5AB2YCNJK_VGRm3Q,8575
+semantic_version-2.5.0.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+semantic_version-2.5.0.dist-info/METADATA,sha256=rHC5ZXalGP-jXyIBTDotCrwvazzVWwRX3650ZbLZDAs,9601
+semantic_version-2.5.0.dist-info/RECORD,,
+semantic_version-2.5.0.dist-info/WHEEL,sha256=-aSo8rHuuPDEFzkcqqQ55pDyCjy25bYMLxSiHWKAOTc,92
+semantic_version-2.5.0.dist-info/metadata.json,sha256=MeU0-YgwKUuirXu4cGSEdh0yg6vgetgcsa6h0AKhyzM,1146
+semantic_version-2.5.0.dist-info/top_level.txt,sha256=8WNFqF6w9sgwWGOgIxBq65HQ6zakOE7tCaGKz0inQlI,17
+semantic_version/__init__.py,sha256=p3HBA_jxwG0SjfY3nwHYHwCHZGxRSzuqvqAVZ5DRfik,305
+semantic_version/__pycache__/__init__.cpython-36.pyc,,
+semantic_version/__pycache__/base.cpython-36.pyc,,
+semantic_version/__pycache__/compat.cpython-36.pyc,,
+semantic_version/__pycache__/django_fields.cpython-36.pyc,,
+semantic_version/base.py,sha256=gNgD2PjCgvcetiy8iG8ibSQrNEp6v3qNKsAxCT5ffHg,17483
+semantic_version/compat.py,sha256=Kl9vw3pXQC6zASV5tF-KB9P3PJiITqPNLrI-NfjyHKc,370
+semantic_version/django_fields.py,sha256=pMWcnkQZgmt-EbcpAvOEH0vDZMrqmUx1AFbTga7975U,2893

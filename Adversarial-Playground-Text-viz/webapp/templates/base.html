@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
@@ -51,7 +51,7 @@
         <!-- Menu to select model -->
         <h4 align=left style='font-size: 17px; display:inline'> Choose a model! </h4>
         <h4 align=left style='font-size: 17px; color:rgb(0,66,200); display:inline'>
-          <input type="Radio" Name="model" Value="0"> 0: AGNews &nbsp
+          <input type="Radio" Name="model" Value="0" checked> 0: AGNews &nbsp
           <input type="Radio" Name="model" Value="1"> 1: Amazon  (1-5) &nbsp
           <input type="Radio" Name="model" Value="2"> 2: Amazon  (+/-) &nbsp
           <input type="Radio" Name="model" Value="3"> 3: DBPedia &nbsp 
@@ -138,17 +138,17 @@
               <!-- Menu of parameters; power, scoring, and transformer algorithm -->
               <h4> <strong><div class = "padded"> Power (# words w/chars modified): </strong></div>
               <div class = "padded">
-                <input type="number" id="dwbPower" class="form-control">
+                <input type="number" id="dwbPower" class="form-control" value=2>
               </div>
               </h4>
 
               <h4> <strong><div class = "padded"> Scoring Algorithm: </strong></div>
               <div class = "padded">
               <select id="dwbScoring" class="form-control">
+                <option value="replaceone">replaceone</option>
                 <option value="combined">combined</option>
                 <option value="temporal">temporal</option>
                 <option value="tail">tail</option>
-                <option value="replaceone">replaceone</option>
                 <option value="random">random</option>
                 <option value="grad">grad</option>
               </select>
@@ -158,6 +158,7 @@
               <h4> <strong><div class = "padded"> Transformer Algorithm: </strong></div>
               <div class = "padded">
               <select id="dwbTransform" class="form-control">
+                <option value="homoglyph">homoglyph</option>
                 <option value="swap">swap</option>
                 <option value="flip">flip</option>
                 <option value="insert">insert</option>
@@ -233,6 +234,11 @@
                   }
                   newOrigText += String(orig_text_vec[i]).charAt(j);
                 }
+
+                if (adv_text_vec[i].length > orig_text_vec[i].length) {
+                    newAdvText += String(adv_text_vec[i]).substring(orig_text_vec.length+1, orig_text_vec.length+2).fontcolor("red");
+                }
+
                 if (i == max_scores[0] || i == max_scores[1]) {
                   newOrigText += "</p>";
                   newAdvText += "</p>";

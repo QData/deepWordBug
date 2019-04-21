@@ -1,7 +1,7 @@
 Adversarial Text Playground
 ==========================
 
-This is Jennifer Fang's capstone research work that extends the Adversarial Playground project by Andrew Norton: https://github.com/QData/AdversarialDNN-Playground and Ji Gao and Yanjun Qi's DeepWordBug algorithm: https://github.com/QData/deepWordBug. The goal is to perform a similar function to Google's TensorFlow Playground, but for evasion attacks in adversarial machine learning on text data.  It is a web service that enables the user to visualize the creation of adversarial samples to neural networks. Some notable features include:
+This is Jennifer Fang's capstone research work that extends the Adversarial Playground project by Andrew Norton: https://github.com/QData/AdversarialDNN-Playground and Ji Gao and Yanjun Qi's DeepWordBug algorithm: https://github.com/QData/deepWordBug. The goal is to perform a similar function to Google's TensorFlow Playground, but for visualizations of evasion attacks in adversarial machine learning on text data as well as other machine learning classifiers.  This is a web service that enables the user to visualize the creation of adversarial samples to neural networks. Some notable features include:
 
 1. Position highlighter
 2. Importance heatmap
@@ -15,6 +15,7 @@ How to Add Code
 The code structure for Adversarial Text Playground is very simple, modular, and easy to add to.
 
 <strong>Backend code </strong>(machine learning algorithm): place all relevant files in the webapp/models folder. Connect the model to the frontend code in the views.py file. Follow the example given for the deepwordbug model. 
+
 <strong>Frontend code </strong>(for the actual visualization): place this in the webapp/templates folder. One template file per algorithm. Each new template file represents a new tab on the top navigation bar.  
 
 The index.html file can be easily added to for any additional algorithms. The base.html file provides a guideline for how to achieve all the features listed above. The deepwordbug.html file demonstrates how to add a tab for a new algorithm in Adversarial-Text-Playground. There are extensive comments throughout each file to show exactly how and where code should be added. 
@@ -57,7 +58,7 @@ $ python3 run.py &
 
 Or run the following command to run the webapp in the background even when logged out from the server:
 ```
-$ cd AdversarialDNN-Playground-localDir
+$ cd Adversarial-Playground-Text-viz
 $ nohup python3 run.py &        # run in background even when logged out
 ```
 

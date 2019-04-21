@@ -21,7 +21,6 @@ def recoveradv(rawsequence, index2word, inputs, advwords):
         for i in range(inputs.size()[0]-1,-1,-1):
             wordi = index2word[inputs[i].item()]
             rear_ct = rawsequence[:rear_ct].rfind(wordi)
-                # print(rear_ct)
             if inputs[i].item()>=3:
                 advsequence = advsequence[:rear_ct] + advwords[i] + advsequence[rear_ct + len(wordi):]
     except:
