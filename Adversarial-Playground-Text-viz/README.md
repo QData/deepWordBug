@@ -1,7 +1,9 @@
 Adversarial Text Playground
 ==========================
 
-This is Jennifer Fang's capstone research work that extends the Adversarial Playground project by Andrew Norton: https://github.com/QData/AdversarialDNN-Playground and Ji Gao and Yanjun Qi's DeepWordBug algorithm: https://github.com/QData/deepWordBug. The goal is to perform a similar function to Google's TensorFlow Playground, but for visualizations of evasion attacks in adversarial machine learning on text data as well as other machine learning classifiers.  This is a web service that enables the user to visualize the creation of adversarial samples to neural networks. Some notable features include:
+This is Jennifer Fang's capstone research work that extends the Adversarial Playground project by Andrew Norton: https://github.com/QData/AdversarialDNN-Playground and Ji Gao and Yanjun Qi's DeepWordBug algorithm: https://github.com/QData/deepWordBug. 
+
+To view the webapp hosted on AWS Elastic Beanstalk, follow the link here: http://adv-text-flask-env.cygeeu97fg.us-east-1.elasticbeanstalk.com/dwb. The goal is to perform a similar function to Google's TensorFlow Playground, but for visualizations of evasion attacks in adversarial machine learning on text data as well as other machine learning classifiers.  This is a web service that enables the user to visualize the creation of adversarial samples to neural networks. Some notable features include:
 
 1. Position highlighter
 2. Importance heatmap
