@@ -11,7 +11,7 @@ from webapp.models import dwb_model
 
 def create_app():
 
-    app = Flask(__name__, template_folder='webapp/templates', static_folder='webapp/static')
+    app = Flask(__name__) #, template_folder='webapp/templates', static_folder='webapp/static')
 
     @app.route('/')
     @app.route('/index')
