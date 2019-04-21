@@ -11,6 +11,10 @@ from webapp.models import dwb_model
 
 def create_app():
 
+    # This line required for AWS Elastic Beanstalk
+    # Specify the template and static folders so that AWS EB can find them!
+    # On your dashboard, make sure to set the static to something like: PATH = /static/  DIRECTORY = webapp/static
+    # (only then will the CSS work)
     app = Flask(__name__, template_folder='webapp/templates', static_folder='webapp/static')
 
     @app.route('/')
@@ -77,6 +81,7 @@ def create_app():
 
     return app
 
+# Needed for AWS EB
 application = create_app()
 
 # run the app.

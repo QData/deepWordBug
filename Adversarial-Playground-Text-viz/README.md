@@ -27,7 +27,7 @@ The index.html file can be easily added to for any additional algorithms. The ba
 Installation
 ------------
 
-There are git submodules in this repository; to clone all the needed files, please clone this entire repository, then cd into the Adversarial-Playground-Text-viz folder. 
+If you choose to install this locally and not use the AWS EB link above, there are git submodules in this repository; to clone all the needed files, please clone this entire repository, then cd into the Adversarial-Playground-Text-viz folder. 
 
 The primary requirements for this package are Python 3 with Tensorflow version 1.0.1 or greater and != version 1.7.  The `requirements.txt` file contains a listing of the required Python packages; to install all requirements, run the following:
 
