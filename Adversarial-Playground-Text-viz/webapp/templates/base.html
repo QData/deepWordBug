@@ -226,13 +226,17 @@
                   newAdvText += "<p style = 'display:inline; font-size:24px'>";
                 }
                 for (var j = 0; j < String(orig_text_vec[i]).length; j++) {
-                  if (String(adv_text_vec[i]).charAt(j) != String(orig_text_vec[i]).charAt(j)) {
+                  if (String(adv_text_vec[i]).charAt(j) != String(orig_text_vec[i]).charAt(j).toLowerCase()) {
                       newAdvText += String(adv_text_vec[i]).charAt(j).fontcolor("red");
                    }
                    else {
-                      newAdvText += String(adv_text_vec[i]).charAt(j);
+                      newAdvText += String(adv_text_vec[i]).charAt(j).toLowerCase();
                   }
-                  newOrigText += String(orig_text_vec[i]).charAt(j);
+                  newOrigText += String(orig_text_vec[i]).charAt(j).toLowerCase();
+                }
+
+                if (adv_text_vec[i].length < orig_text_vec[i].length) {
+                    newAdvText += String("_").fontcolor("red");
                 }
 
                 if (adv_text_vec[i].length > orig_text_vec[i].length) {

@@ -88,3 +88,13 @@ python attack.py --data [0-7] --model [modelname] --modelpath [modelpath] --powe
 # Since some test dataset is very large, to evaluate the performance we add this parameter
 # to generate on parts of data. By default it will generate 2560 samples.
 ```
+
+
+## Interactive Visualization Tool to Visualize DeepWordBug:
+
+We build an interactive extension to visualize DeepWordbug:  
+#### Code @ [https://github.com/QData/deepWordBug/tree/master/Adversarial-Playground-Text-viz](https://github.com/QData/deepWordBug/tree/master/Adversarial-Playground-Text-viz) 
+
+#### Interactive Live Demo @  [ULR](http://adv-text-flask-env.cygeeu97fg.us-east-1.elasticbeanstalk.com/dwb)
+
+<img src="https://github.com/QData/deepWordBug/blob/master/demo.png" alt="demo">

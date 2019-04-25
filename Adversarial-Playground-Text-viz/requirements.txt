@@ -1,5 +1,5 @@
 http://download.pytorch.org/whl/cpu/torch-0.4.1-cp36-cp36m-linux_x86_64.whl
-Flask==0.12.1
+Flask==0.12.3
 numpy
 pandas
 scipy
