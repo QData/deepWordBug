@@ -95,6 +95,6 @@ python attack.py --data [0-7] --model [modelname] --modelpath [modelpath] --powe
 We build an interactive extension to visualize DeepWordbug:  
 #### Code @ [https://github.com/QData/deepWordBug/tree/master/Adversarial-Playground-Text-viz](https://github.com/QData/deepWordBug/tree/master/Adversarial-Playground-Text-viz) 
 
-#### Interactive Live Demo @  [ULR](http://adv-text-flask-env.cygeeu97fg.us-east-1.elasticbeanstalk.com/index)
+#### Interactive Live Demo @  [ULR](http://adv-text-flask-env.cygeeu97fg.us-east-1.elasticbeanstalk.com/dwb)
 
 <img src="https://github.com/QData/deepWordBug/blob/master/demo.png" alt="demo">
