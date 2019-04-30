@@ -129,6 +129,10 @@ We have tried DeepWordBug on seven real-world text classification datasets. On e
 -  (5) Yelp Review (Full): 1-5 Stars 
 -  (6) Yelp Review (Polarity): Negative or positive 
 
+
++ Seven pretrained biLSTM RNN models are shared [Here](https://github.com/QData/deepWordBug/tree/master/Adversarial-Playground-Text-viz/webapp/models/models)
+
+
 #### Scoring Algorithm: 
 
 - (1) Combined: Combination of the next two options Combined_score(x) = THS(x) + λ(TTS(x)) 
