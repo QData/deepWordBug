@@ -144,7 +144,7 @@ We have tried DeepWordBug on seven real-world text classification datasets. On e
 
 > This is a newly added transformer based on the homoglyph attack. A homoglyph attack is an attacking method that uses symbols with identical shapes. The following figure shows a table including all the text characters together with its homoglyph pair in our design. 
 
-<img src="https://github.com/QData/deepWordBug/blob/master/homoglyph.png" width="42" alt="demo">
+<img src="https://github.com/QData/deepWordBug/blob/master/homoglyph.png" width="242" alt="demo">
 
 
 - (2) Swap: Swap two adjacent letters in the word. 
