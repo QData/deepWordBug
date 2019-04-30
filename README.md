@@ -3,7 +3,7 @@
 This repository contains the source code of DeepWordBug, an algorithm that generates efficient adversarial samples on text input. The algorithm can attack both Char and Word model in a fast and black-box manner.
 
 
-<img src="https://github.com/QData/deepWordBug/blob/master/example.gif" alt="example">
+<img src="https://github.com/QData/deepWordBug/blob/master/about/example.gif" alt="example">
 
 
 
@@ -103,13 +103,13 @@ We build an interactive extension to visualize DeepWordbug:
 
 #### Interactive Live Demo @  [ULR](http://adv-text-flask-env.cygeeu97fg.us-east-1.elasticbeanstalk.com/dwb)
 
-<img src="https://github.com/QData/deepWordBug/blob/master/demo.png" alt="demo">
+<img src="https://github.com/QData/deepWordBug/blob/master/about/demo.png" alt="demo">
 
 
 ## Details: 
 
 
-DeepWordBug presents novel scoring strategies, outlined below, to identify critical tokens in a text sequence input that, if modified, can cause classifiers to incorrectly classify inputs with a high probability. Simple character-level transformations are applied to those highest-ranked critical tokens to minimize the differences, also known as the edit distance, between the original input and the generated adversarial example. For most effective usage, please input a text sequence of at least 2 words. 
+DeepWordBug presents novel scoring strategies, outlined below, to identify critical tokens in a text sequence input that, if modified, can cause classifiers to incorrectly classify inputs with a high probability. Simple character-level transformations are applied to those highest-ranked critical tokens to minimize the differences, also known as the edit distance, between the original input and the generated adversarial example. For most effective usage, please input a text sequence of at least 5 words. 
 
 
 Notable parameters when using the DeepWordBug include 
@@ -144,7 +144,7 @@ We have tried DeepWordBug on seven real-world text classification datasets. On e
 
 > This is a newly added transformer based on the homoglyph attack. A homoglyph attack is an attacking method that uses symbols with identical shapes. The following figure shows a table including all the text characters together with its homoglyph pair in our design. 
 
-<img src="https://github.com/QData/deepWordBug/blob/master/homoglyph.png" width="242" alt="demo">
+<img src="https://github.com/QData/deepWordBug/blob/master/about/homoglyph.png" width="242" alt="demo">
 
 
 - (2) Swap: Swap two adjacent letters in the word. 
