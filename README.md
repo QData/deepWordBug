@@ -1,4 +1,4 @@
-# We are updating DeepWordBug into a much more comprehensive framework for generating adversarial examples to fool Neural NLP models. 
+# We update DeepWordBug into a new and more comprehensive CodeRepo : TextAttack for generating adversarial examples to fool Neural NLP models. 
 
 #### TextAttack Wiki: https://textattack.readthedocs.io/en/latest/
 #### TextAttack Github:  https://github.com/QData/TextAttack 
