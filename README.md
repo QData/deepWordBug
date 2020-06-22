@@ -1,3 +1,10 @@
+# We are updating DeepWordBug into a much more comprehensive framework for generating adversarial examples to fool Neural NLP models. 
+
+#### TextAttack Wiki: https://textattack.readthedocs.io/en/latest/
+#### TextAttack Github:  https://github.com/QData/TextAttack 
+#### TextAttack Arxiv Prepint: https://arxiv.org/abs/2005.05909
+TextAttack is a Python framework for running adversarial attacks against NLP models. TextAttack builds attacks from four components: a search method, goal function, transformation, and set of constraints. TextAttack's modular design makes it easily extensible to new NLP tasks, models, and attack strategies. TextAttack currently supports attacks on models trained for classification, entailment, and translation.
+
 # DeepWordBug
 
 This repository contains the source code of DeepWordBug, an algorithm that generates efficient adversarial samples on text input. The algorithm can attack both Char and Word model in a fast and black-box manner.
